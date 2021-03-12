@@ -16,7 +16,7 @@ app.use(express.static("public"));
 
 app.get("*", (req, res) => {
 
-  res.status(200).send("holis world");
+  res.status(200).send("holis worldiness");
 
 });
 
