@@ -5,25 +5,13 @@ const authRouter = require("./routes/auth");
 const comunitariosRouter = require("./routes/comunitarios");
 const prataComunitariosRouter = require("./routes/prataComunitarios");
 
-module.exports = function (passport) {
+module.exports = function () {
 
   const router = express.Router();
   const auth = authRouter();
   const comunitarios = comunitariosRouter();
   const prataComunitarios = prataComunitariosRouter();
 
-  router.get("/login", passport.authenticate("google",
-    { scope: ["profile", "email"],
-      prompt: "select_account" }));
-  
-  router.get("/google/callback", passport.authenticate("google", { failureRedirect: "/failed" }),
-    function(req, res) {  
-      res.redirect("/home");
-    });
-
-  router.get("/logout", auth.doLogout);
-  router.get("/getAuth", auth.getAuth);
-  
   router.get("/comunitarios", comunitarios.getAll);
   router.post("/comunitarios", comunitarios.addComunitario);
   router.get("/comunitarios/:id", comunitarios.findById);

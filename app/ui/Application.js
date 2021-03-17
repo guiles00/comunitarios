@@ -17,21 +17,10 @@ class Application extends Component {
     this.state = { sessionId: null };
   }
 
-  componentDidMount(){
-    //por ahora que consulte aca. Pero debería hacer la consulta como siempre, en el componente principal o en cada llamada.
-    fetch("/api/getAuth").then(res => res.json())
-      .then((response) => {
-        this.setState( { sessionId: response.user.passport.user.id });
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
-
   render() {
-    const isAuthenticated = this.state.sessionId; 
+   const isAuthenticated = true;
     
-    if (isAuthenticated) {
+   if (isAuthenticated) {
       return (
         <Router history={history}>
           <Navbar/>

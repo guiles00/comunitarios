@@ -31,6 +31,7 @@ module.exports = function(){
   const addComunitario = async function addComunitario(req, res){
 
     const { nombre, doppler, bidi, doble, consultorio } = req.body;
+    console.log(doppler);
 
     const comunitario = new Comunitarios({nombre:nombre, estudios:[{"tipo":"doppler","valor":doppler}
       ,{"tipo":"BIDI","valor":bidi},{"tipo":"doble","valor":doble},{"tipo":"consultorio","valor":consultorio}]});

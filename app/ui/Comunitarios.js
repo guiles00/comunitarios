@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import {useHistory} from "react-router-dom";
+import { useHistory }  from "react-router-dom";
 
 const Comunitarios = function Comunitarios() {
 
@@ -53,9 +53,9 @@ const Comunitarios = function Comunitarios() {
                       <tr>
                         <th scope="col">Comunitario</th>
                         <th scope="col">Doppler</th>
-                        <th scope="col">BIDI</th>
-                        <th scope="col">Doble</th>
-                        <th scope="col">Consultorio</th>
+                        <th scope="col" className="only-lg">BIDI</th>
+                        <th scope="col" className="only-lg">Doble</th>
+                        <th scope="col" className="only-lg">Consultorio</th>
                         <th scope="col"></th>
                       </tr>
                     </thead>
@@ -72,11 +72,11 @@ const Comunitarios = function Comunitarios() {
                           <tr key={c._id} onClick={handleRowClick(c._id)}>
                             <td>{c.nombre}</td>
                             <td>{(typeof doppler === "undefined")?"N/A":doppler.valor}</td>
-                            <td>{(typeof bidi === "undefined")?"N/A":bidi.valor}</td>
-                            <td>{(typeof doble === "undefined")?"N/A":doble.valor}</td>
-                            <td>{(typeof consultorio === "undefined")?"N/A":consultorio.valor}</td>
+                            <td className="only-lg">{(typeof bidi === "undefined")?"N/A":bidi.valor}</td>
+                            <td className="only-lg">{(typeof doble === "undefined")?"N/A":doble.valor}</td>
+                            <td className="only-lg">{(typeof consultorio === "undefined")?"N/A":consultorio.valor}</td>
                             <td>
-                              <button className="btn btn-danger" onClick={handleDelete(c._id)}>X</button>
+                              
                             </td>
                           </tr>
                         );
@@ -94,4 +94,3 @@ const Comunitarios = function Comunitarios() {
 };
 
 export default Comunitarios;
-//<Link to={"/"} className="btn btn-info">Volver al listado</Link>

@@ -5,22 +5,9 @@ class Navbar extends Component {
 
   constructor() {
     super();
-    
-    this.state = { sessionId: null };
-    
+    this.state = { sessionId: null };    
   }  
 
-  componentDidMount(){
-    //por ahora que consulte aca. Pero debería hacer la consulta como siempre, en el componente principal o en cada llamada.
-    fetch("/api/getAuth").then(res => res.json())
-      .then((response) => {
-        this.setState( { sessionId: response.user.passport.user.id });
-        
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
   render() {
 
     const userLinks = (
@@ -46,7 +33,7 @@ class Navbar extends Component {
           <span className="navbar-toggler-icon"> </span>
         </button>
         <div className="collapse navbar-collapse" id="collapse_target">
-          {this.state.sessionId ? userLinks : null}
+          {userLinks}
         </div>
       </nav>
     );
@@ -55,11 +42,3 @@ class Navbar extends Component {
 }
 
 export default Navbar;
-//<a className="navbar-brand" href="/"> <img src="/images/jesi.webp" width="50" height="50"></img></a>
-          
-/* <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a className="dropdown-item" to={"/"}>Alta</a>
-            <a className="dropdown-item" to={"/"}>Reportes</a>
-            <a className="dropdown-item" to={"/api/logout"}>Logout</a>
-          </div> */
-        

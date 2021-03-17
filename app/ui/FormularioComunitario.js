@@ -34,9 +34,8 @@ const FormularioComunitario = function FormularioComunitario(props) {
         data: { nombre: comunitario.nombre, doppler: comunitario.doppler, bidi: comunitario.bidi
           , doble: comunitario.doble, consultorio: comunitario.consultorio}
       });
-
+    
     }else{
-      console.log("edita");
 
       axios.put(`/api/comunitarios/${comunitario._id}`, comunitario)
         .then(() => {
@@ -56,50 +55,46 @@ const FormularioComunitario = function FormularioComunitario(props) {
   return (
     <div className="container-fluid pull-down ">
       <div className="row justify-content-md-center">
-        <div className="col-md-12">
+        <div className="col-lg-8 col-sm-12">
           <form onSubmit={handleSubmit}>
             <fieldset>
               <div className="card">
                 <div className="card-body justify-content-md-center center_div">
-                  <h4 className="card-title text-center">Comunitario</h4>
-                  {(updated)?
-                    <div className="alert alert-success" role="alert">
-                    Se guard&oacute; con &eacute;xito.
-                    </div>:null
-                  }
+                  <h4 className="card-title text-center">Agregar Comunitario</h4>
                   <hr/>
+
                   <div className="row">
-                    <div className="col-6">
+                    <div className="col-sm-12 col-lg-12">
                       <label>Nombre:</label>
                       <input type="text" className="form-control" name="nombre" value={comunitario.nombre} onChange={handleInputChange}></input>
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-6">
+                    <div className="col-sm-12 col-lg-12">
                       <label>Doppler:</label>
                       <input type="text" className="form-control" name="doppler" value={comunitario.doppler} onChange={handleInputChange}></input>
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-6">
+                    <div className="col-sm-12 col-lg-12">
                       <label>BIDI:</label>
                       <input type="text" className="form-control" name="bidi" value={comunitario.bidi} onChange={handleInputChange}></input>
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-6">
+                    <div className="col-sm-12 col-lg-12">
                       <label>Doble:</label>
                       <input type="text" className="form-control" name="doble" value={comunitario.doble} onChange={handleInputChange}></input>
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-6">
+                    <div className="col-sm-12 col-lg-12">
                       <label>Consultorio:</label>
                       <input type="text" className="form-control" name="consultorio" value={comunitario.consultorio} onChange={handleInputChange}></input>
                     </div>
                   </div>
                 </div>
-
+                
                 <div className="card-footer text-muted">
                   <div className="form-group">
                     <Link to={"/comunitarios"} className="btn btn-dark">Volver</Link> &nbsp;&nbsp;
@@ -115,7 +110,71 @@ const FormularioComunitario = function FormularioComunitario(props) {
         </div>
       </div>
     </div>
+   
   );
 };
 
 export default FormularioComunitario;
+/*
+<div className="container-fluid pull-down ">
+<div className="row justify-content-md-center">
+  <div className="col-md-12">
+    <form onSubmit={handleSubmit}>
+      <fieldset>
+        <div className="card">
+          <div className="card-body justify-content-md-center center_div">
+            <h4 className="card-title text-center">Comunitario</h4>
+            {(updated)?
+              <div className="alert alert-success" role="alert">
+              Se guard&oacute; con &eacute;xito.
+              </div>:null
+            }
+            <hr/>
+            <div className="row">
+              <div className="col-6">
+                <label>Nombre:</label>
+                <input type="text" className="form-control" name="nombre" value={comunitario.nombre} onChange={handleInputChange}></input>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <label>Doppler:</label>
+                <input type="text" className="form-control" name="doppler" value={comunitario.doppler} onChange={handleInputChange}></input>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <label>BIDI:</label>
+                <input type="text" className="form-control" name="bidi" value={comunitario.bidi} onChange={handleInputChange}></input>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <label>Doble:</label>
+                <input type="text" className="form-control" name="doble" value={comunitario.doble} onChange={handleInputChange}></input>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <label>Consultorio:</label>
+                <input type="text" className="form-control" name="consultorio" value={comunitario.consultorio} onChange={handleInputChange}></input>
+              </div>
+            </div>
+          </div>
+
+          <div className="card-footer text-muted">
+            <div className="form-group">
+              <Link to={"/comunitarios"} className="btn btn-dark">Volver</Link> &nbsp;&nbsp;
+              <button type="submit" className="btn btn-icon btn-primary">
+                Guardar
+              </button> &nbsp;
+            </div>
+          </div>
+        </div>
+
+      </fieldset>
+    </form>
+  </div>
+</div>
+</div>
+*/
