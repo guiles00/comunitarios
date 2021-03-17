@@ -18,9 +18,9 @@ class Application extends Component {
   }
 
   render() {
-   const isAuthenticated = true;
+    const isAuthenticated = true;
     
-   if (isAuthenticated) {
+    if (isAuthenticated) {
       return (
         <Router history={history}>
           <Navbar/>

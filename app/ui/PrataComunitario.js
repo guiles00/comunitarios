@@ -44,9 +44,6 @@ const PrataComunitario = function PrataComunitario() {
     
   },[updated]);
 
-  const handleBuscar = function handleBuscar(){
-    console.log("holis");
-  }
   return (
     <div className="container-fluid pull-down ">
       

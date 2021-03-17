@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { useHistory }  from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Comunitarios = function Comunitarios() {
 
@@ -19,16 +19,6 @@ const Comunitarios = function Comunitarios() {
     setUpdated(false);
 
   },[updated]);
-
-  const handleDelete = function(id) {
-    return function(){
-      axios.delete(`/api/comunitarios/${id}`).then(() => {
-        setUpdated(true);
-      }).catch(e => {
-        console.log(e);
-      });
-    };
-  };
 
   const handleRowClick = function(id){
     return function(){

@@ -1,14 +1,12 @@
 "use strict";
 
 const express = require("express");
-const authRouter = require("./routes/auth");
 const comunitariosRouter = require("./routes/comunitarios");
 const prataComunitariosRouter = require("./routes/prataComunitarios");
 
 module.exports = function () {
 
   const router = express.Router();
-  const auth = authRouter();
   const comunitarios = comunitariosRouter();
   const prataComunitarios = prataComunitariosRouter();
 
