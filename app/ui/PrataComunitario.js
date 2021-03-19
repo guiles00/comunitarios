@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 const Registro = function Registro(props){
   
@@ -11,19 +12,35 @@ const Registro = function Registro(props){
   };
   
   const details = props.p.cantidadEstudios.map((e) => { return { tipo:e.tipo,cantidad:e.cantidad,valor:e.valor };});
+  
+  const theader = details.map( (e,i)=>{
+    return <th key={i}>{e.tipo}</th>;
+  });
+  const trs = details.map( (e,i)=>{
+    return <td key={i}>{e.cantidad}</td>; 
+  });
 
+  const tablaEstudios = (
+    <table className="table">
+      <thead>
+        <tr>{theader}</tr>
+      </thead>
+      <tbody>
+        <tr>{trs}</tr>
+      </tbody>
+    </table>);
+
+  const par = (props.index % 2 === 0);
+  
   return <div className="card" onClick={handleCardClick}>
     <div className="card-body p-0">
-      <div className="card-header">
-        {props.p.fecha}: {props.p.comunitario.nombre} - $15000
+      <div className={["card-header", par && "bg-row"].join(" ")}>
+        <span className="text-dark">
+       
+          {moment(props.p.fecha).format("DD/MM/YY")} - <strong>Comunitario:</strong> {props.p.comunitario.nombre} - <strong>Prata:</strong>  $15000
+        </span>
       </div>
-      {show? 
-        <ul className="list-group list-group-flush ">
-          {details.map(e=>{
-            return <li key={e.tipo} className="list-group-item">Tipo:{e.tipo} - Cantidad:{e.cantidad} - Valor:${e.valor} -Total:${e.cantidad*e.valor}</li>;
-          })}
-        </ul>
-        :null}        
+      {show && tablaEstudios}        
     </div>
   </div>;
 };
@@ -49,20 +66,21 @@ const PrataComunitario = function PrataComunitario() {
       
       <div className="row">             
         <div className="col-sm-1 col-lg-2"></div>
-        <div className="col-sm-10 col-lg-8">
+        <div className="col-sm-10 col-lg-8"> 
           <div className="card">
             <div className="card-header"> 
-              <h2> 
-                Registro diario de ingreso
-              </h2> <br></br> 
+              <h2 className="card-title text-center">
+                Listado Prata Comunitarios
+              </h2>
+              <br></br> 
               <Link to={"/prataComunitario/new"} className="btn btn-primary">Agregar</Link>
             
             </div>
             <div className="card-body p-0">
               {
-                prataComunitario.map((p)=>{
+                prataComunitario.map((p,index)=>{
 
-                  return <Registro key={p._id} p={p}/>;
+                  return <Registro index={index} key={p._id} p={p}/>;
                 })
               }         
             </div>

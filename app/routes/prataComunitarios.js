@@ -15,9 +15,12 @@ module.exports = function(){
   
   const addPrataComunitario = async function addPrataComunitario(req, res){
    
-    const {fecha, comunitarioId, cantidadDoppler,valorDoppler,cantidadBidi, valorBidi} = req.body;
+    const {fecha, comunitarioId, cantidadDoppler,valorDoppler,cantidadBidi, valorBidi , cantidadDoble, valorDoble} = req.body;
 
-    const arrayCantEstudios = [{"tipo":"doppler","cantidad":cantidadDoppler, "valor":valorDoppler},{"tipo":"bidi","cantidad":cantidadBidi, "valor":valorBidi}];
+    const arrayCantEstudios = [{"tipo":"doppler","cantidad":cantidadDoppler, "valor":valorDoppler}
+      ,{"tipo":"bidi","cantidad":cantidadBidi, "valor":valorBidi}
+      ,{"tipo":"doble","cantidad":cantidadDoble, "valor":valorDoble}];
+
     const prataComunitario = new PrataComunitario({fecha:fecha,comunitario:comunitarioId,cantidadEstudios: arrayCantEstudios });
     
     prataComunitario.save(function (err) {

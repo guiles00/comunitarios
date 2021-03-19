@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
+
+import history from "../history";
 
 import Login from "./Login";
 import Navbar from "./Navbar";
@@ -30,8 +32,7 @@ class Application extends Component {
             <Route path="/comunitarios/:id" component={FormularioComunitario} exact={true}/>
             <Route path="/prataComunitario/" component={PrataComunitario} exact={true}/>
             <Route path="/prataComunitario/:id" component={FormularioPrataComunitario} exact={true}/>
-            <Route path="/maqueta/" component={Maqueta} exact={true}/>
-            
+            <Route path="/maqueta/" component={Maqueta} exact={true}/> 
           </div>
         </Router>
       );

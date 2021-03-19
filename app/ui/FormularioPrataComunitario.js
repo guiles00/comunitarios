@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import history from "../history";
 
 const FormularioPrataComunitario = function FormularioPrataComunitario() {
 
@@ -10,7 +11,7 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
   const [comunitarios, setComunitarios] = useState([]);
   const bidiRef = useRef(null);
   const dobleRef = useRef(null);
-
+  
   useEffect(() =>{
     axios("/api/comunitarios")
       .then(res => setComunitarios(res.data.comunitarios))
@@ -27,6 +28,7 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
       url: "/api/prataComunitario",
       data: prataComunitario
     });
+    history.push("/prataComunitario");
   };
 
   const handleInputChange = function(e) {
@@ -59,11 +61,10 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
     const bidi = valores.estudios.find(element => element.tipo === "BIDI" );
     const valorBidi = (typeof bidi === "undefined")?0:bidi.valor;
 
-    const doble = valores.estudios.find(element => element.tipo === "Doble" );
+    const doble = valores.estudios.find(element => element.tipo === "doble" );
     const valorDoble = (typeof doble === "undefined")?0:doble.valor;
 
     setPrataComunitario({ ...prataComunitario, "comunitarioId":c.target.value,"valorDoppler": valorDoppler, "valorBidi":valorBidi,"valorDoble":valorDoble });
-
   };
   return (
     <div className="container-fluid pull-down ">
@@ -73,9 +74,10 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
             <fieldset>
               <div className="card">
                 <div className="card-body justify-content-md-center center_div">
-                  <h4 className="card-title text-center">Comunitario</h4>
-                  <hr/>
-
+                  <div className="card-header"> 
+                    <h2 className="card-title text-center">Agregar Prata Comunitario</h2>
+                    <hr/>
+                  </div>
                   <div className="form-group row">
                     <label className="col-sm-2">Fecha</label>
                     <input type="date" className="form-control col-sm-10 col-lg-4" name="fecha" value={prataComunitario.fecha} onChange={handleInputChange}></input>
@@ -123,10 +125,10 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
 
                 <div className="card-footer text-muted">
                   <div className="form-group">
-                    <Link to={"/prataComunitario"} className="btn btn-dark">Volver</Link> &nbsp;&nbsp;
                     <button type="submit" className="btn btn-icon btn-primary">
                       Guardar
                     </button> &nbsp;
+                    <Link to={"/prataComunitario"} className="btn btn-dark">Volver</Link> &nbsp;&nbsp;
                   </div>
                 </div>
               </div>
