@@ -47,7 +47,7 @@ module.exports = function(){
 
   const editComunitario = async function editComunitario(req, res){
   
-    const {nombre, doppler, bidi, doble, consultorio } = req.body;
+    const { nombre, doppler, bidi, doble, consultorio } = req.body;
     const _id = req.params.id;
     const comunitario = {"nombre": nombre,"estudios":[{"tipo":"doppler","valor":doppler}
       ,{"tipo":"BIDI","valor":bidi},{"tipo":"doble","valor":doble},{"tipo":"consultorio","valor":consultorio}]};
