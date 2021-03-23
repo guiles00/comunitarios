@@ -32,8 +32,7 @@ module.exports = function(){
 
     const { nombre, doppler, bidi, doble, consultorio } = req.body;
     
-    const comunitario = new Comunitarios({nombre:nombre, estudios:[{"tipo":"doppler","valor":doppler}
-      ,{"tipo":"BIDI","valor":bidi},{"tipo":"doble","valor":doble},{"tipo":"consultorio","valor":consultorio}]});
+    const comunitario = new Comunitarios({nombre:nombre, estudios:[{doppler,bidi,doble,consultorio}]});
 
     comunitario.save(function (err) {
       if (err) {
@@ -46,14 +45,21 @@ module.exports = function(){
   };
 
   const editComunitario = async function editComunitario(req, res){
-  
+  console.log("entra aca?")
+
     const { nombre, doppler, bidi, doble, consultorio } = req.body;
     const _id = req.params.id;
-    const comunitario = {"nombre": nombre,"estudios":[{"tipo":"doppler","valor":doppler}
-      ,{"tipo":"BIDI","valor":bidi},{"tipo":"doble","valor":doble},{"tipo":"consultorio","valor":consultorio}]};
+    
+    const valorEstudios = {doppler, bidi, doble, consultorio};
     
     try{
-      await Comunitarios.findByIdAndUpdate({_id}, comunitario);      
+      const comunitario = await Comunitarios.findById(_id);
+      comunitario.nombre = nombre;
+      comunitario.estudios.push(valorEstudios);
+      await comunitario.save();
+
+      //  await Comunitarios.updateOne( {_id} , { $push: valorEstudios }, { upsert:true } );
+      res.status(200).send("ok");
     }catch(e){
       console.log(e);
       res.status(500).send({ "error":"Error tratando de traer el comunitario" });
@@ -77,3 +83,29 @@ module.exports = function(){
   return { getAll, findById, addComunitario, editComunitario, deleteComunitario };
 
 };
+
+/*Deberia editar de esta manera
+db.getCollection('comunitarios').update(
+    // query 
+    {
+        "_id" : ObjectId("6059d2d0c68fcd1237aea5be")
+    },
+    
+    // update 
+    {
+            "$addToSet":{
+            "estudios":{
+              "doppler":101,
+              "consultorio":101,
+              "doble":10,
+              "bidi":10   
+               }  
+            }   
+    },
+    
+    // options 
+    {
+        "multi" : false,  // update only one document 
+        "upsert" : false  // insert a new document, if no existing document match the query 
+    }
+);*/

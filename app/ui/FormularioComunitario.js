@@ -26,7 +26,7 @@ const FormularioComunitario = function FormularioComunitario(props) {
 
   const handleSubmit = function(e) {
     e.preventDefault();
-
+console.log(comunitario)
     if(comunitario._id === null){
       axios({
         method: "post",
