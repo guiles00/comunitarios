@@ -1,6 +1,7 @@
 "use strict";
 const Comunitarios = require("../models/Comunitarios");
-
+const _ = require("lodash");  
+  
 module.exports = function(){
 
   const getAll = async function getAll(req, res){
@@ -45,20 +46,28 @@ module.exports = function(){
   };
 
   const editComunitario = async function editComunitario(req, res){
-  console.log("entra aca?")
-
+  
     const { nombre, doppler, bidi, doble, consultorio } = req.body;
     const _id = req.params.id;
     
     const valorEstudios = {doppler, bidi, doble, consultorio};
     
     try{
+
+      //Guarda el nombre y si los valores de los estudios cambiaron agrega un elemento nuevo
+      // en estudios
+      
       const comunitario = await Comunitarios.findById(_id);
       comunitario.nombre = nombre;
-      comunitario.estudios.push(valorEstudios);
-      await comunitario.save();
+      const ultimosValores = comunitario.estudios[comunitario.estudios.length -1];
+      
+      //queda pendiente mejorar el codigo
+       const objUltimosValores = {"doppler":ultimosValores.doppler,"bidi":ultimosValores.bidi,"doble":ultimosValores.doble,"consultorio":ultimosValores.consultorio} 
+       if(JSON.stringify(objUltimosValores) !== JSON.stringify(valorEstudios)) 
+       comunitario.estudios.push(valorEstudios);      
+      
+       await comunitario.save();
 
-      //  await Comunitarios.updateOne( {_id} , { $push: valorEstudios }, { upsert:true } );
       res.status(200).send("ok");
     }catch(e){
       console.log(e);

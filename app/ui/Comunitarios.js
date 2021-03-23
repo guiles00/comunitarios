@@ -55,19 +55,15 @@ const Comunitarios = function Comunitarios() {
                 <tbody>
                   {comunitarios.map((c)=>{
 
-                    const doppler = c.estudios.find(element => element.tipo === "doppler");
-
-                    const bidi = c.estudios.find(element => element.tipo === "BIDI" );
-                    const doble = c.estudios.find(element => element.tipo === "doble" );
-                    const consultorio = c.estudios.find(element => element.tipo === "consultorio" );
+                    const {doppler, doble, bidi, consultorio} = c.estudios[c.estudios.length -1];
 
                     return (
                       <tr key={c._id} onClick={handleRowClick(c._id)}>
                         <td>{c.nombre}</td>
-                        <td>{(typeof doppler === "undefined")?"N/A":doppler.valor}</td>
-                        <td className="only-lg">{(typeof bidi === "undefined")?"N/A":bidi.valor}</td>
-                        <td className="only-lg">{(typeof doble === "undefined")?"N/A":doble.valor}</td>
-                        <td className="only-lg">{(typeof consultorio === "undefined")?"N/A":consultorio.valor}</td>
+                        <td>{doppler}</td>
+                        <td className="only-lg">{bidi}</td>
+                        <td className="only-lg">{doble}</td>
+                        <td className="only-lg">{consultorio}</td>
                       </tr>
                     );
                   })}

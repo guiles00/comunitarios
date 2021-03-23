@@ -15,18 +15,18 @@ const FormularioComunitario = function FormularioComunitario(props) {
       axios(`/api/comunitarios/${props.match.params.id}`)
         .then(res => {
 
-          const { _id, nombre } = res.data;
-          const doppler = res.data.estudios[0].valor;
-          setComunitario({_id:_id, nombre:nombre,doppler:doppler,bidi:res.data.estudios[1].valor
-            ,doble:res.data.estudios[2].valor,consultorio:res.data.estudios[3].valor});
+          const { _id, nombre } = res.data;          
+          const { doppler, doble, bidi, consultorio } = res.data.estudios[res.data.estudios.length -1];
+
+          setComunitario({_id, nombre,doppler,bidi,doble,consultorio});
 
         }).catch(e => { console.log(e); });
 
-  },[updated]);
+  },[]);
 
   const handleSubmit = function(e) {
     e.preventDefault();
-console.log(comunitario)
+
     if(comunitario._id === null){
       axios({
         method: "post",
@@ -34,17 +34,18 @@ console.log(comunitario)
         data: { nombre: comunitario.nombre, doppler: comunitario.doppler, bidi: comunitario.bidi
           , doble: comunitario.doble, consultorio: comunitario.consultorio}
       });
+      
     } else {
 
       axios.put(`/api/comunitarios/${comunitario._id}`, comunitario)
         .then(() => {
-          setUpdated(true);
-
+      
+          
         }).catch(e => {
           console.log(e);
         });
     }
-
+    
     history.push("/comunitarios");
   };
 
