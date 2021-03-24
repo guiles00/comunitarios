@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 var valorEstudios = new Schema({
   fecha:{
     type: Date,
-    default: Date.now
+    default: new Date()
   },
   doppler : {
     type: Number,
@@ -25,7 +25,8 @@ var valorEstudios = new Schema({
     type: Number,
     default: 0,
     min: [0,"no puede ser menor a cero"]
-  }
+  },
+  _id: false
 });
 
 const comunitarioSchema = new Schema({
@@ -35,7 +36,7 @@ const comunitarioSchema = new Schema({
   },
   estudios: [valorEstudios]
 });
-  
+
 const Comunitarios = mongoose.model("comunitarios", comunitarioSchema);
 
 module.exports = Comunitarios;
