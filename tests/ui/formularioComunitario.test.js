@@ -2,10 +2,7 @@ import Enzyme from 'enzyme';
 import { shallow } from "enzyme";
 import React  from "react";
 
- import toJson from 'enzyme-to-json';
-
-
-//import FormularioComunitario from "../../app/ui/FormularioComunitario";
+import FormularioComunitario from "../../app/ui/FormularioComunitario";
 
 
 describe("Checking FormularioComunitario",()=>{
@@ -43,3 +40,37 @@ describe("Checking FormularioComunitario",()=>{
 test("Expect listado de comunitarios",() =>{
     expect(1).toBe(1);
 });
+
+
+describe("Formulario Comunitario",()=>{
+  let mockSetComunitario = jest.fn();
+  let wrapper;
+
+  const setup = ()=>{
+    return shallow(<FormularioComunitario />)
+  }
+
+  beforeEach(()=>{
+    mockSetComunitario.mockClear();
+    React.useState = jest.fn( ()=>[{},mockSetComunitario] );
+    wrapper = setup();
+  }) 
+
+  test("renders ok",()=>{
+    const wrapper = setup();
+    expect(wrapper.find("#comunitario-form").length).toBe(1);
+  });
+
+  test("Should update comunitario state",()=>{
+   //cambiar para que encuentre por nombre
+    const  inputName = wrapper.find("#nombre");
+    const mockEvent = {target: { value:"Comunitario", name:"nombre" } };
+    inputName.simulate("change",mockEvent);
+    expect(mockSetComunitario).toHaveBeenCalled()
+  
+    expect(mockSetComunitario).toHaveBeenCalledWith({nombre:"Comunitario"})
+  
+  });
+
+
+})

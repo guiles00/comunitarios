@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import history from "../history";
 
 const FormularioComunitario = function FormularioComunitario(props) {
 
-  const [comunitario, setComunitario] = useState({_id:null,nombre:"",doppler:0,bidi:0,doble:0,consultorio:0});
-
-  const [updated, setUpdated] = useState(false);
+  const [comunitario, setComunitario] = React.useState({_id:null,nombre:"",doppler:0,bidi:0,doble:0,consultorio:0});
 
   useEffect(() => {
 
@@ -51,11 +49,12 @@ const FormularioComunitario = function FormularioComunitario(props) {
 
   const handleInputChange = function(e) {
     const { name, value } = e.target;
+
     setComunitario({ ...comunitario, [name]: value });
   };
 
   return (
-    <div className="container-fluid pull-down ">
+    <div className="container-fluid pull-down" id="comunitario-form">
       <div className="row justify-content-md-center">
         <div className="col-lg-8 col-sm-12">
           <form>
@@ -68,7 +67,7 @@ const FormularioComunitario = function FormularioComunitario(props) {
                   <div className="row">
                     <div className="col-sm-12 col-lg-12">
                       <label>Nombre:</label>
-                      <input type="text" className="form-control" name="nombre" value={comunitario.nombre} onChange={handleInputChange}></input>
+                      <input type="text" className="form-control" id="nombre" name="nombre" value={comunitario.nombre} onChange={handleInputChange}></input>
                     </div>
                   </div>
                   <div className="row">

@@ -1,24 +1,21 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import hookActions from "../actions/hookActions";
+import { comunitariosReducer } from "../reducers/hooksReducers";
 
 const Comunitarios = function Comunitarios() {
-
-  const [comunitarios, setComunitarios] = useState([]);
-  const [updated, setUpdated] = useState(false);
-
+  
   const history = useHistory();
+  const [comunitarios, dispatch] = React.useReducer(comunitariosReducer,[]);
 
-  useEffect(() => {
-    axios.get("/api/comunitarios")
-      .then((res)=>{
-        setComunitarios(res.data.comunitarios);
-      }).catch(e => console.log(e));
+  const setComunitarios = (comunitarios)=>{
+    dispatch({type:"POPULATE_COMUNITARIOS",payload:comunitarios})
+  }
 
-    setUpdated(false);
-
-  },[updated]);
+  React.useEffect(() => {
+    hookActions.getComunitarios(setComunitarios);
+  },[]);
 
   const handleRowClick = function(id){
     return function(){
@@ -27,7 +24,7 @@ const Comunitarios = function Comunitarios() {
   };
 
   return (
-    <div className="container-fluid pull-down ">
+    <div className="container-fluid pull-down" id="comunitarios-list">
       
       <div className="row">             
         <div className="col-sm-1 col-lg-2">
@@ -38,8 +35,10 @@ const Comunitarios = function Comunitarios() {
               <h2 className="card-title text-center">
                 Listado de Comunitarios
               </h2>
-              <br></br> 
-              <Link to={"/comunitarios/new"} className="btn btn-primary">Agregar</Link>
+              <br></br>
+              <BrowserRouter>
+                <Link to={"/comunitarios/new"} className="btn btn-primary">Agregar</Link>
+              </BrowserRouter>
             </div>
             <div className="card-body justify-content-center p-0">
               <table className="table table-striped table-hover">

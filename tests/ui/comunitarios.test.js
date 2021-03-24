@@ -1,35 +1,46 @@
- import Enzyme, { shallow, mount } from 'enzyme';
+import Enzyme, { shallow, mount } from 'enzyme';
 import React  from "react";
-import { expectation } from 'sinon';
-
-// import toJson from 'enzyme-to-json';
 
 import Comunitarios from "../../app/ui/Comunitarios";
+import hookActions  from "../../app/actions/hookActions";
+import fixtureComunitarios from "../fixture/comunitarios";
 
-// test("Componente Home tiene dos h4",() =>{
-//   const wrapper = shallow(<Home />);
+describe("Comunitario",()=>{
+  
+    const setup = ()=>{
+        return shallow(<Comunitarios />);     
+    }
 
-//   expect(wrapper.find("h4").length).toBe(2)
-// });
+    test("It Renders ok",() =>{
+      const wrapper = setup();
+      expect(wrapper.find("#comunitarios-list").length).toBe(1)
+    });
+});
 
-// test("MatchSnapshot 2",() =>{
-//     const wrapper = shallow(<Comunitarios />);
-//     expect(toJson(wrapper)).toMatchSnapshot();
-// });
+describe("Testing Hooks",()=>{
+    
+    const  mockGetComunitarios = jest.fn();
 
-// test("Expect Mounted Ok",() =>{
-//     const wrapper = shallow(<Comunitarios />);
-//     expect(toJson(wrapper)).toMatchSnapshot();
-// });
+    const setup = () =>{
+        mockGetComunitarios.mockClear();
+        hookActions.getComunitarios = mockGetComunitarios;
+        
+        const mockUseReducer = jest.fn()
+          .mockReturnValue([
+            fixtureComunitarios,
+            jest.fn()
+          ])
+        
+        React.useReducer = mockUseReducer;
+      
+        return mount(<Comunitarios />);   
+      }
+    
+    test("Expect listado de comunitarios",() =>{
+    
+        setup();
 
-// test("Expect listado de comunitarios",() =>{
-//     const wrapper = shallow(<Comunitarios />);
-//     expect(toJson(wrapper)).toMatchSnapshot();
-// });
-
-test("Expect listado de comunitarios",() =>{
- //  const wrapper = mount(<Comunitarios />);
-   
-    expect(1).toBe(1);
+        expect(mockGetComunitarios).toHaveBeenCalled();
+    });
 });
 

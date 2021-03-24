@@ -1,5 +1,4 @@
 import 'regenerator-runtime/runtime'
-import { expectation } from 'sinon';
 
 const request = require("supertest");
 const app = require("../../app/app");

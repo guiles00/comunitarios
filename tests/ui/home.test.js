@@ -1,12 +1,10 @@
 import Enzyme from 'enzyme';
 import { shallow } from "enzyme";
 import React  from "react";
-import sinon from 'sinon';
 
 import toJson from 'enzyme-to-json';
 
 import Home from "../../app/ui/Home";
-
 
 test("Should Match Snapshot",() =>{
   const wrapper = shallow(<Home />);
