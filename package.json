@@ -52,13 +52,14 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "lodash": "^4.17.21",
     "mongoose": "^5.11.17",
     "path": "^0.12.7",
     "save-dev": "0.0.1-security"
   },
   "jest": {
     "testEnvironment": "node",
-    "verbose":true,
+    "verbose": true,
     "setupFilesAfterEnv": [
       "<rootDir>/tests/setupTests.js"
     ]
