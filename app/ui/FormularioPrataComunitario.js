@@ -7,6 +7,7 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
 
   const [prataComunitario, setPrataComunitario] = useState({fecha:"",comunitarioId:"",cantidadDoppler:"",
     valorDoppler:0,cantidadBidi:"", valorBidi:0,cantidadDoble:"", valorDoble:0});
+
   const [total, setTotal] = useState({doppler:0,bidi:0,doble:0,total:0});
   const [comunitarios, setComunitarios] = useState([]);
   const bidiRef = useRef(null);
@@ -14,7 +15,11 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
   
   useEffect(() =>{
     axios("/api/comunitarios")
-      .then(res => setComunitarios(res.data.comunitarios))
+      .then(res =>{
+
+      console.log(res.data)
+        setComunitarios(res.data.comunitarios)
+      })
       .catch(e => {
         console.log(e);
       });
@@ -39,6 +44,7 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
   const handleOnBlurDoppler = function(){
 
     bidiRef.current.focus();
+
     setTotal({...total, "doppler":(prataComunitario.valorDoppler*prataComunitario.cantidadDoppler)});
   };
 
@@ -52,19 +58,12 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
   };
 
   const handleChangeComunitario = function(c) {
-
-    const valores = comunitarios.find(element => element._id === c.target.value);
-
-    const doppler = valores.estudios.find(element => element.tipo === "doppler" );
-    const valorDoppler = (typeof doppler === "undefined")?0:doppler.valor;
-
-    const bidi = valores.estudios.find(element => element.tipo === "BIDI" );
-    const valorBidi = (typeof bidi === "undefined")?0:bidi.valor;
-
-    const doble = valores.estudios.find(element => element.tipo === "doble" );
-    const valorDoble = (typeof doble === "undefined")?0:doble.valor;
-
-    setPrataComunitario({ ...prataComunitario, "comunitarioId":c.target.value,"valorDoppler": valorDoppler, "valorBidi":valorBidi,"valorDoble":valorDoble });
+   
+     const valores = comunitarios.find(element => element._id === c.target.value);
+     const { doppler, bidi, doble, consultorio } = valores.estudios[valores.estudios.length - 1];
+     
+     setPrataComunitario({ ...prataComunitario, "comunitarioId":c.target.value,"valorDoppler": doppler, "valorBidi":bidi,"valorDoble":doble });
+    
   };
   return (
     <div className="container-fluid pull-down ">

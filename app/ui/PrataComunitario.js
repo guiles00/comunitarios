@@ -5,6 +5,7 @@ import moment from "moment";
 
 const Registro = function Registro(props){
   
+  console.log(props)
   const [show, setShow] = useState(false);
   
   const handleCardClick = function handleCardClick(){
@@ -62,7 +63,7 @@ const PrataComunitario = function PrataComunitario() {
   },[updated]);
 
   return (
-    <div className="container-fluid pull-down ">
+    <div className="container-fluid pull-down" id="prataComunitario-component">
       
       <div className="row">             
         <div className="col-sm-1 col-lg-2"></div>

@@ -9,6 +9,7 @@ module.exports = function(){
       populate("comunitario").
       exec(function (err, prataComunitarios) {
         if (err) console.log(err);
+
         res.send({"prataComunitarios": prataComunitarios });
       });    
   };

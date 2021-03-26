@@ -63,7 +63,9 @@ describe("Formulario Comunitario",()=>{
 
   test("Should update comunitario state",()=>{
    //cambiar para que encuentre por nombre
-    const  inputName = wrapper.find("#nombre");
+    //const  inputName = wrapper.find("#nombre");
+    const inputName = wrapper.find({ name: "nombre" });
+    
     const mockEvent = {target: { value:"Comunitario", name:"nombre" } };
     inputName.simulate("change",mockEvent);
     expect(mockSetComunitario).toHaveBeenCalled()
