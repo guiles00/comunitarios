@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import hookActions from "../actions/hookActions";
 import { comunitariosReducer } from "../reducers/hooksReducers";
@@ -36,9 +36,7 @@ const Comunitarios = function Comunitarios() {
                 Listado de Comunitarios
               </h2>
               <br></br>
-              <BrowserRouter>
                 <Link to={"/comunitarios/new"} className="btn btn-primary">Agregar</Link>
-              </BrowserRouter>
             </div>
             <div className="card-body justify-content-center p-0">
               <table className="table table-striped table-hover">

@@ -36,7 +36,7 @@ describe("Testing Hooks",()=>{
         return mount(<Comunitarios />);   
       }
     
-    test("Expect listado de comunitarios",() =>{
+    xtest("Expect listado de comunitarios",() =>{
     
         setup();
 

@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "env-cmd -f config/.dev.env nodemon app/index.js",
     "start": "node app/index.js",
-    "build-prod": "browserify -g uglifyify -t babelify app/client.js --minify -o public/js/comunitarios.bundle.min.js",
-    "build": "browserify -t babelify app/client.js -o public/js/comunitarios.bundle.min.js",
+    "build": "browserify -g uglifyify -t babelify app/client.js --minify -o public/js/comunitarios.bundle.min.js",
+    "build-dev": "browserify -t babelify app/client.js -o public/js/comunitarios.bundle.min.js",
     "watch": "watchify -t [ babelify --presets [ @babel/react ] ] app/client.js -dv -o public/js/comunitarios.bundle.min.js",
     "lint": " ",
     "elint": "./node_modules/.bin/eslint app/*.js app/**/*.js",
