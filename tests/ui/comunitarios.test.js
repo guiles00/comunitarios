@@ -1,6 +1,6 @@
 import Enzyme, { shallow, mount } from 'enzyme';
 import React  from "react";
-
+import {BrowserRouter as Router } from "react-router-dom";
 import Comunitarios from "../../app/ui/Comunitarios";
 import hookActions  from "../../app/actions/hookActions";
 import fixtureComunitarios from "../fixture/comunitarios";
@@ -8,7 +8,9 @@ import fixtureComunitarios from "../fixture/comunitarios";
 describe("Comunitario",()=>{
   
     const setup = ()=>{
-        return shallow(<Comunitarios />);     
+        return shallow(
+           <Comunitarios />
+           );     
     }
 
     test("It Renders ok",() =>{
@@ -33,10 +35,13 @@ describe("Testing Hooks",()=>{
         
         React.useReducer = mockUseReducer;
       
-        return mount(<Comunitarios />);   
+        return mount(<Router>
+            <Comunitarios />
+          </Router>
+          );   
       }
     
-    xtest("Expect listado de comunitarios",() =>{
+    test("Expect listado de comunitarios",() =>{
     
         setup();
 

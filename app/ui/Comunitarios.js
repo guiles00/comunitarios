@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { BrowserRouter, Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import hookActions from "../actions/hookActions";
 import { comunitariosReducer } from "../reducers/hooksReducers";

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Router, Route } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 
 import history from "../history";
 
@@ -24,7 +24,7 @@ class Application extends Component {
     
     if (isAuthenticated) {
       return (
-        <Router history={history}>
+        <BrowserRouter history={history}>
           <Navbar/>
           <div>
             <Route path="/home" component={Home} exact={true}/>
@@ -34,7 +34,7 @@ class Application extends Component {
             <Route path="/prataComunitario/:id" component={FormularioPrataComunitario} exact={true}/>
             <Route path="/maqueta/" component={Maqueta} exact={true}/> 
           </div>
-        </Router>
+        </BrowserRouter>
       );
     }
     return <Login/>;
