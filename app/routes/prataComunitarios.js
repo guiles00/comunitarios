@@ -5,34 +5,42 @@ module.exports = function(){
 
   const getAll = async function getAll(req, res){
 
-    PrataComunitario.find().
-      populate("comunitario").
-      exec(function (err, prataComunitarios) {
-        if (err) console.log(err);
-
-        res.send({"prataComunitarios": prataComunitarios });
-      });    
+    try{
+      
+      PrataComunitario.find().
+        populate("comunitario").
+        exec(function (err, prataComunitarios) {
+          if (err) console.log("err");
+  
+          res.send({"prataComunitarios": prataComunitarios });
+        });    
+    }catch(e){
+      res.status(500).send({ "error":"Error tratando de traer listado comunitario" });  
+    }
   };
   
   const addPrataComunitario = async function addPrataComunitario(req, res){
    
     const {fecha, comunitarioId, cantidadDoppler,valorDoppler,cantidadBidi, valorBidi , cantidadDoble, valorDoble} = req.body;
 
-    const arrayCantEstudios = [{"tipo":"doppler","cantidad":cantidadDoppler, "valor":valorDoppler}
-      ,{"tipo":"bidi","cantidad":cantidadBidi, "valor":valorBidi}
-      ,{"tipo":"doble","cantidad":cantidadDoble, "valor":valorDoble}];
-
-    const prataComunitario = new PrataComunitario({fecha:fecha,comunitario:comunitarioId,cantidadEstudios: arrayCantEstudios });
+    const cantidadEstudios = { cantidadDoppler, valorDoppler, cantidadDoble, valorDoble, cantidadBidi, valorBidi }
     
-    prataComunitario.save(function (err) {
-      if (err) {
-        console.log(err);
-        res.status(500).send({ "error":"Error tratando de agregar el comunitario" });
-      }
-    });
+    const prataComunitario = new PrataComunitario({fecha:fecha,comunitario:comunitarioId,cantidadEstudios });
 
-    res.send("alta exitosa?");
+    try {
 
+      prataComunitario.save(function (err) {
+        if (err) {
+          console.log(err);
+         
+          res.send("alta exitosa?");
+        }
+      });
+
+    }catch(e){
+      res.status(500).send({ "error":"Error tratando de agregar el comunitario" });  
+    }    
+  
   };
 
   return { getAll, addPrataComunitario };

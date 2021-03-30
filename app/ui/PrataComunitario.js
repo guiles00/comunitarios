@@ -3,42 +3,44 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-const Registro = function Registro(props){
-  
-  console.log(props)
+const Registro = function Registro({cantidadEstudios, comunitario, fecha, index}){
+    
   const [show, setShow] = useState(false);
+  const { cantidadDoppler, valorDoppler, cantidadDoble, valorDoble, cantidadBidi, valorBidi } = cantidadEstudios; 
   
   const handleCardClick = function handleCardClick(){
     setShow(!show);  
   };
   
-  const details = props.p.cantidadEstudios.map((e) => { return { tipo:e.tipo,cantidad:e.cantidad,valor:e.valor };});
-  
-  const theader = details.map( (e,i)=>{
-    return <th key={i}>{e.tipo}</th>;
-  });
-  const trs = details.map( (e,i)=>{
-    return <td key={i}>{e.cantidad}</td>; 
-  });
-
   const tablaEstudios = (
     <table className="table">
       <thead>
-        <tr>{theader}</tr>
+        <tr>
+          <th>Doppler</th>
+          <th>Doble</th>
+          <th>Bidi</th>
+        </tr>
       </thead>
       <tbody>
-        <tr>{trs}</tr>
+        <tr>
+        <td>{cantidadDoppler}</td>
+        <td>{cantidadDoble}</td>
+        <td>{cantidadBidi}</td>
+        </tr>
       </tbody>
     </table>);
 
-  const par = (props.index % 2 === 0);
+  const par = (index % 2 === 0);
   
+    
+  const total = (cantidadDoppler * valorDoppler) + (cantidadDoble * valorDoble) + (cantidadBidi * valorBidi);
+   
   return <div className="card" onClick={handleCardClick}>
     <div className="card-body p-0">
       <div className={["card-header", par && "bg-row"].join(" ")}>
         <span className="text-dark">
        
-          {moment(props.p.fecha).format("DD/MM/YY")} - <strong>Comunitario:</strong> {props.p.comunitario.nombre} - <strong>Prata:</strong>  $15000
+          {moment(fecha).format("DD/MM/YY")} - <strong>Comunitario:</strong> {comunitario.nombre} - <strong>Prata:</strong>  ${total}
         </span>
       </div>
       {show && tablaEstudios}        
@@ -81,7 +83,7 @@ const PrataComunitario = function PrataComunitario() {
               {
                 prataComunitario.map((p,index)=>{
 
-                  return <Registro index={index} key={p._id} p={p}/>;
+                  return <Registro index={index} key={p._id} {...p}/>;
                 })
               }         
             </div>

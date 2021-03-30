@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import history from "../history";
+import moment from "moment";
 
 const FormularioPrataComunitario = function FormularioPrataComunitario() {
 
-  const [prataComunitario, setPrataComunitario] = useState({fecha:"",comunitarioId:"",cantidadDoppler:"",
+  const [prataComunitario, setPrataComunitario] = useState({fecha: moment().format('YYYY-MM-DD'),comunitarioId:"",cantidadDoppler:"",
     valorDoppler:0,cantidadBidi:"", valorBidi:0,cantidadDoble:"", valorDoble:0});
 
   const [total, setTotal] = useState({doppler:0,bidi:0,doble:0,total:0});
@@ -65,6 +66,16 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
      setPrataComunitario({ ...prataComunitario, "comunitarioId":c.target.value,"valorDoppler": doppler, "valorBidi":bidi,"valorDoble":doble });
     
   };
+
+  const isDisabled = ()=>{
+    let deshabilitar = false;
+
+    if(prataComunitario.comunitarioId === "") deshabilitar = true; 
+
+    console.log(prataComunitario)
+
+    return deshabilitar;
+  }
   return (
     <div className="container-fluid pull-down ">
       <div className="row justify-content-md-center">
@@ -75,8 +86,9 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
                 <div className="card-body justify-content-md-center center_div">
                   <div className="card-header"> 
                     <h2 className="card-title text-center">Agregar Prata Comunitario</h2>
-                    <hr/>
+                    
                   </div>
+                  <br></br>
                   <div className="form-group row">
                     <label className="col-sm-2">Fecha</label>
                     <input type="date" className="form-control col-sm-10 col-lg-4" name="fecha" value={prataComunitario.fecha} onChange={handleInputChange}></input>
@@ -124,7 +136,7 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
 
                 <div className="card-footer text-muted">
                   <div className="form-group">
-                    <button type="submit" className="btn btn-icon btn-primary">
+                    <button type="submit" className="btn btn-icon btn-primary" disabled={isDisabled()}>
                       Guardar
                     </button> &nbsp;
                     <Link to={"/prataComunitario"} className="btn btn-dark">Volver</Link> &nbsp;&nbsp;
