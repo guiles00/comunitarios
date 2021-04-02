@@ -6,6 +6,8 @@ import history from "../history";
 const FormularioComunitario = function FormularioComunitario(props) {
 
   const [comunitario, setComunitario] = React.useState({_id:null,nombre:"",doppler:0,bidi:0,doble:0,consultorio:0});
+  const [error, setError] = React.useState("");
+  const [isLoading, setIsloading] = React.useState(false);
 
   useEffect(() => {
 
@@ -24,6 +26,7 @@ const FormularioComunitario = function FormularioComunitario(props) {
 
   const handleSubmit = function(e) {
     e.preventDefault();
+    setIsloading(true);
 
     if(comunitario._id === null){
       axios({
@@ -31,20 +34,26 @@ const FormularioComunitario = function FormularioComunitario(props) {
         url: "/api/comunitarios",
         data: { nombre: comunitario.nombre, doppler: comunitario.doppler, bidi: comunitario.bidi
           , doble: comunitario.doble, consultorio: comunitario.consultorio}
-      });
-      
+        }).then((res)=>{
+          setIsloading(false);     
+          props.history.push("/comunitarios");
+          
+        }).catch((e)=>{
+          console.log(e)
+          setIsloading(false);
+          setError("ocurrio un error")
+        });
+
     } else {
 
       axios.put(`/api/comunitarios/${comunitario._id}`, comunitario)
         .then(() => {
-      
-          
+          setIsloading(false);
         }).catch(e => {
           console.log(e);
+          setError("ocurrio un error")
         });
     }
-    
-    history.push("/comunitarios");
   };
 
   const handleInputChange = function(e) {
@@ -52,6 +61,14 @@ const FormularioComunitario = function FormularioComunitario(props) {
 
     setComunitario({ ...comunitario, [name]: value });
   };
+
+  const isDisabled = ()=>{
+    let deshabilitar = false;
+
+    if(comunitario.nombre === "") deshabilitar = true; 
+
+    return deshabilitar;   
+  }
 
   return (
     <div className="container-fluid pull-down" id="comunitario-form">
@@ -63,7 +80,15 @@ const FormularioComunitario = function FormularioComunitario(props) {
                 <div className="card-body justify-content-md-center center_div">
                   <h4 className="card-title text-center">Agregar Comunitario</h4>
                   <hr/>
-
+                  {error&&
+                    <div className="alert alert-danger" role="alert">
+                      {error}
+                    </div>}
+                    {isLoading &&
+                    <div className="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    }
                   <div className="row">
                     <div className="col-sm-12 col-lg-12">
                       <label>Nombre:</label>
@@ -98,7 +123,7 @@ const FormularioComunitario = function FormularioComunitario(props) {
                 
                 <div className="card-footer text-muted">
                   <div className="form-group">
-                    <button className="btn btn-icon btn-primary" onClick={handleSubmit}>
+                    <button className="btn btn-icon btn-primary" onClick={handleSubmit} disabled={isDisabled()}>
                       Guardar
                     </button> &nbsp;
                     <Link to={"/comunitarios"} className="btn btn-dark">Volver</Link> &nbsp;&nbsp;
