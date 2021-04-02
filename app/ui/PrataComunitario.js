@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-const Registro = function Registro({cantidadEstudios, comunitario, fecha, index}){
+const Registro = function Registro({_id,cantidadEstudios, comunitario, fecha, index}){
     
   const [show, setShow] = useState(false);
   const { cantidadDoppler, valorDoppler, cantidadDoble, valorDoble, cantidadBidi, valorBidi } = cantidadEstudios; 
@@ -35,13 +35,13 @@ const Registro = function Registro({cantidadEstudios, comunitario, fecha, index}
     
   const total = (cantidadDoppler * valorDoppler) + (cantidadDoble * valorDoble) + (cantidadBidi * valorBidi);
    
-  return <div className="card" onClick={handleCardClick}>
+  return <div className="card" >
     <div className="card-body p-0">
       <div className={["card-header", par && "bg-row"].join(" ")}>
-        <span className="text-dark">
-       
+        <span className="text-dark" onClick={handleCardClick}>
           {moment(fecha).format("DD/MM/YY")} - <strong>Comunitario:</strong> {comunitario.nombre} - <strong>Prata:</strong>  ${total}
-        </span>
+        </span>&nbsp;
+        <Link to={`/prataComunitario/${_id}`} className="btn btn-secondary">Editar</Link>
       </div>
       {show && tablaEstudios}        
     </div>

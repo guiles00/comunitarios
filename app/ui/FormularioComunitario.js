@@ -86,7 +86,7 @@ const FormularioComunitario = function FormularioComunitario(props) {
                     </div>}
                     {isLoading &&
                     <div className="spinner-border" role="status">
-                        <span class="sr-only">Loading...</span>
+                        <span className="sr-only">Loading...</span>
                     </div>
                     }
                   <div className="row">

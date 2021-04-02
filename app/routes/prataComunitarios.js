@@ -32,17 +32,29 @@ module.exports = function(){
       prataComunitario.save(function (err) {
         if (err) {
           console.log(err);
-         
-          res.send("alta exitosa?");
         }
+        res.send("alta exitosa");
       });
-
+      
     }catch(e){
       res.status(500).send({ "error":"Error tratando de agregar el comunitario" });  
     }    
   
   };
 
-  return { getAll, addPrataComunitario };
+  const findById = async function findById(req, res){
+
+    const id = req.params.id;
+    try{
+      const item = await PrataComunitario.findById(id);
+      res.json(item);
+    }catch(e){
+      console.log(e);
+      res.status(500).send({ "error":"Error tratando de traer el comunitario" });
+    }
+  };
+
+
+  return { getAll, addPrataComunitario,findById };
 
 };

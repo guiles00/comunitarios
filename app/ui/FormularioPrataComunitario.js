@@ -1,19 +1,44 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import history from "../history";
 import moment from "moment";
 
-const FormularioPrataComunitario = function FormularioPrataComunitario() {
+const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
 
-  const [prataComunitario, setPrataComunitario] = useState({fecha: moment().format('YYYY-MM-DD'),comunitarioId:"",cantidadDoppler:"",
+  const [prataComunitario, setPrataComunitario] = useState({_id:null,fecha: moment().format('YYYY-MM-DD'),comunitarioId:"",cantidadDoppler:"",
     valorDoppler:0,cantidadBidi:"", valorBidi:0,cantidadDoble:"", valorDoble:0});
 
   const [total, setTotal] = useState({doppler:0,bidi:0,doble:0,total:0});
+  
   const [comunitarios, setComunitarios] = useState([]);
   const bidiRef = useRef(null);
   const dobleRef = useRef(null);
   
+  useEffect(() => {
+
+    if( props.match.params.id !== "new")
+      axios(`/api/prataComunitario/${props.match.params.id}`)
+        .then(res => {
+
+          const prataComunitarioObject = { 
+            _id: res.data._id,
+            fecha: res.data.fecha,
+            comunitarioId: res.data.comunitario,
+            cantidadDoppler:res.data.cantidadEstudios.cantidadDoppler,
+            valorDoppler:res.data.cantidadEstudios.valorDoppler,
+            cantidadDoble:res.data.cantidadEstudios.cantidadDoble,
+            valorDoble:res.data.cantidadEstudios.valorDoble,
+            cantidadBidi:res.data.cantidadEstudios.cantidadBidi,
+            valorBidi:res.data.cantidadEstudios.valorBidi,
+            
+           } 
+     
+           setPrataComunitario(prataComunitarioObject);
+
+        }).catch(e => { console.log(e); });
+
+  },[]);
+
   useEffect(() =>{
     axios("/api/comunitarios")
       .then(res =>{
@@ -28,13 +53,25 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
 
   const handleSubmit = function(e) {
     e.preventDefault();
+    if(prataComunitario._id === null){
 
-    axios({
-      method: "post",
-      url: "/api/prataComunitario",
-      data: prataComunitario
-    });
-    history.push("/prataComunitario");
+      axios({
+        method: "post",
+        url: "/api/prataComunitario",
+        data: prataComunitario
+      }).then((res)=>{
+
+        props.history.push("/prataComunitario");
+        
+      }).catch((e)=>{
+        console.log(e)
+      });;
+      
+      
+    }else{
+      console.log("actualiza");
+    }
+
   };
 
   const handleInputChange = function(e) {
@@ -62,7 +99,6 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
    
      const valores = comunitarios.find(element => element._id === c.target.value);
      const { doppler, bidi, doble, consultorio } = valores.estudios[valores.estudios.length - 1];
-     
      setPrataComunitario({ ...prataComunitario, "comunitarioId":c.target.value,"valorDoppler": doppler, "valorBidi":bidi,"valorDoble":doble });
     
   };
@@ -93,7 +129,7 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
                     <label className="col-sm-2">Fecha</label>
                     <input type="date" className="form-control col-sm-10 col-lg-4" name="fecha" value={prataComunitario.fecha} onChange={handleInputChange}></input>
                     <label className="col-sm-2">Comunitario:</label>
-                    <select name="comunitario" onChange={handleChangeComunitario} className="form-control col-sm-10 col-lg-4">
+                    <select name="comunitario" value={prataComunitario.comunitarioId} onChange={handleChangeComunitario} className="form-control col-sm-10 col-lg-4">
                       <option value="-1">-</option>
                       {comunitarios.map(function(o){return <option key={o._id} value={o._id}> {o.nombre} </option>;})}
                     </select>
@@ -119,7 +155,7 @@ const FormularioPrataComunitario = function FormularioPrataComunitario() {
                     <div className="col-lg-2 col-sm-12 ">
                      Doble (${prataComunitario.valorDoble}):
                     </div>
-                    <input ref={dobleRef} type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="cantidadDoble" value={prataComunitario.cantidaDoble} onChange={handleInputChange}
+                    <input ref={dobleRef} type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="cantidadDoble" value={prataComunitario.cantidadDoble} onChange={handleInputChange}
                       onBlur={handleOnBlurDoble}></input>
                     <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="totalDoble" value={total.doble} readOnly></input>
                   </div>
