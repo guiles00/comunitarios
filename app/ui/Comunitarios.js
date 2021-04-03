@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-//import hookActions from "../actions/hookActions";
-//import { comunitariosReducer } from "../reducers/hooksReducers";
+import hookActions from "../actions/hookActions";
+import { comunitariosReducer } from "../reducers/hooksReducers";
 
 const Comunitarios = function Comunitarios() {
   
@@ -14,7 +14,7 @@ const Comunitarios = function Comunitarios() {
   }
 
   React.useEffect(() => {
-    //hookActions.getComunitarios(setComunitarios);
+    hookActions.getComunitarios(setComunitarios);
   },[]);
 
   const handleRowClick = function(id){
