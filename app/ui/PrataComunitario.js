@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { startFetchPrataComunitarios } from "../actions/prataComunitariosActions";
+
 import moment from "moment";
 
 const Registro = function Registro({_id,cantidadEstudios, comunitario, fecha, index}){
@@ -48,17 +51,14 @@ const Registro = function Registro({_id,cantidadEstudios, comunitario, fecha, in
   </div>;
 };
 
-const PrataComunitario = function PrataComunitario() {
+const PrataComunitario = function PrataComunitario(props) {
 
   const [prataComunitario, setPrataComunitario] = useState([]);
   const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
-    axios.get("/api/prataComunitario")
-      .then((res)=>{
 
-        setPrataComunitario(res.data.prataComunitarios);
-      }).catch(e => console.log(e));
+    props.fetchPrataComunitarios();
   
     setUpdated(false);
     
@@ -81,7 +81,7 @@ const PrataComunitario = function PrataComunitario() {
             </div>
             <div className="card-body p-0">
               {
-                prataComunitario.map((p,index)=>{
+                props.prataComunitarios.map((p,index)=>{
 
                   return <Registro index={index} key={p._id} {...p}/>;
                 })
@@ -98,4 +98,16 @@ const PrataComunitario = function PrataComunitario() {
   );
 };
 
-export default PrataComunitario;
+const mapStateToProps = (state)=>{
+  return {
+    prataComunitarios: state.prataComunitarios.prataComunitarios
+  }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return {
+    fetchPrataComunitarios: ()=> dispatch(startFetchPrataComunitarios())
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(PrataComunitario);
