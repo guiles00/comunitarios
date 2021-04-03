@@ -56,12 +56,12 @@ describe("Formulario Comunitario",()=>{
     wrapper = setup();
   }) 
 
-  test("renders ok",()=>{
+  xtest("renders ok",()=>{
     const wrapper = setup();
     expect(wrapper.find("#comunitario-form").length).toBe(1);
   });
 
-  test("Should update comunitario state",()=>{
+  xtest("Should update comunitario state",()=>{
    //cambiar para que encuentre por nombre
     //const  inputName = wrapper.find("#nombre");
     const inputName = wrapper.find({ name: "nombre" });
