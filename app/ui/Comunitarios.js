@@ -1,27 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import hookActions from "../actions/hookActions";
-import { comunitariosReducer } from "../reducers/hooksReducers";
 
-const Comunitarios = function Comunitarios() {
+import { connect } from "react-redux";
+import { startFetchComunitarios } from "../actions/comunitariosActions";
+
+const Comunitarios = function Comunitarios(props) {
   
-  const history = useHistory();
-  const [comunitarios, dispatch] = React.useReducer(comunitariosReducer,[]);
-
-  const setComunitarios = (comunitarios)=>{
-    dispatch({type:"POPULATE_COMUNITARIOS",payload:comunitarios})
-  }
-
   React.useEffect(() => {
-    hookActions.getComunitarios(setComunitarios);
+    props.fetchComunitarios();
   },[]);
-
-  const handleRowClick = function(id){
-    return function(){
-      history.push(`/comunitarios/${id}`);
-    };
-  };
 
   return (
     <div className="container-fluid pull-down" id="comunitarios-list">
@@ -50,18 +37,9 @@ const Comunitarios = function Comunitarios() {
                   </tr>
                 </thead>
                 <tbody>
-                  {comunitarios.map((c)=>{
-
-                    const {doppler, doble, bidi, consultorio} = c.estudios[c.estudios.length -1];
-
+                  {props.comunitarios.map((comunitario)=>{
                     return (
-                      <tr key={c._id} onClick={handleRowClick(c._id)}>
-                        <td>{c.nombre}</td>
-                        <td>{doppler}</td>
-                        <td className="only-lg">{bidi}</td>
-                        <td className="only-lg">{doble}</td>
-                        <td className="only-lg">{consultorio}</td>
-                      </tr>
+                      <ComunitarioItem key={c._id} {...comunitario}/>
                     );
                   })}
                 </tbody>
@@ -76,4 +54,15 @@ const Comunitarios = function Comunitarios() {
   );
 };
 
-export default Comunitarios;
+const mapStateToProps = (state)=>{
+  return {
+    comunitarios: state.comunitarios.comunitarios
+  }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    fetchComunitarios: ()=> dispatch(startFetchComunitarios())
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Comunitarios);

@@ -4,53 +4,6 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { startFetchPrataComunitarios } from "../actions/prataComunitariosActions";
 
-import moment from "moment";
-
-const Registro = function Registro({_id,cantidadEstudios, comunitario, fecha, index}){
-    
-  const [show, setShow] = useState(false);
-  const { cantidadDoppler, valorDoppler, cantidadDoble, valorDoble, cantidadBidi, valorBidi } = cantidadEstudios; 
-  
-  const handleCardClick = function handleCardClick(){
-    setShow(!show);  
-  };
-  
-  const tablaEstudios = (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Doppler</th>
-          <th>Doble</th>
-          <th>Bidi</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-        <td>{cantidadDoppler}</td>
-        <td>{cantidadDoble}</td>
-        <td>{cantidadBidi}</td>
-        </tr>
-      </tbody>
-    </table>);
-
-  const par = (index % 2 === 0);
-  
-    
-  const total = (cantidadDoppler * valorDoppler) + (cantidadDoble * valorDoble) + (cantidadBidi * valorBidi);
-   
-  return <div className="card" >
-    <div className="card-body p-0">
-      <div className={["card-header", par && "bg-row"].join(" ")}>
-        <span className="text-dark" onClick={handleCardClick}>
-          {moment(fecha).format("DD/MM/YY")} - <strong>Comunitario:</strong> {comunitario.nombre} - <strong>Prata:</strong>  ${total}
-        </span>&nbsp;
-        <Link to={`/prataComunitario/${_id}`} className="btn btn-secondary">Editar</Link>
-      </div>
-      {show && tablaEstudios}        
-    </div>
-  </div>;
-};
-
 const PrataComunitario = function PrataComunitario(props) {
 
   const [prataComunitario, setPrataComunitario] = useState([]);
@@ -83,7 +36,7 @@ const PrataComunitario = function PrataComunitario(props) {
               {
                 props.prataComunitarios.map((p,index)=>{
 
-                  return <Registro index={index} key={p._id} {...p}/>;
+                  return <PrataComunitarioItem index={index} key={p._id} {...p}/>;
                 })
               }         
             </div>

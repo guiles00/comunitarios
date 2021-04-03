@@ -19,7 +19,7 @@ export const fetchComunitariosError = ()=>{
 
 export const startFetchComunitarios = ()=>{
   return (dispatch)=>{
-    axios.get("/api/comunitario")
+    axios.get("/api/comunitarios")
     .then((res)=>{
       dispatch(fetchComunitarios(res.data.comunitarios))
     }).catch(e => {
