@@ -6,15 +6,18 @@ import thunk from 'redux-thunk';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+//Lo exporto para testing
+export const middlewares = [thunk];
+
 
 export default () =>{
   const store = createStore(
     combineReducers({
       prataComunitarios: prataComunitariosReducer,
       comunitarios: comunitariosReducer
-    }), 
+    }),
     composeEnhancers(applyMiddleware(thunk))
     );
-  
+
   return store;
 }
