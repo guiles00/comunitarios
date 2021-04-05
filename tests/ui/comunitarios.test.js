@@ -1,5 +1,6 @@
-import Enzyme, { shallow, mount } from 'enzyme';
+import Enzyme, { mount } from 'enzyme';
 import React  from "react";
+import { Provider } from 'react-redux';
 import {BrowserRouter as Router } from "react-router-dom";
 import Comunitarios from "../../app/ui/Comunitarios";
 import fixtureComunitarios from "../fixture/comunitarios";

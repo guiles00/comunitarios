@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { startFetchPrataComunitarios } from "../actions/prataComunitariosActions";
 
+import PrataComunitarioItem from "./PrataComunitarioItem";
+
 const PrataComunitario = function PrataComunitario(props) {
 
-  const [prataComunitario, setPrataComunitario] = useState([]);
+  //const [prataComunitario, setPrataComunitario] = useState([]);
   const [updated, setUpdated] = useState(false);
 
   useEffect(() => {

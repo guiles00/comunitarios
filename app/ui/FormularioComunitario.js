@@ -1,13 +1,20 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import history from "../history";
+
+import { connect } from "react-redux";
 
 const FormularioComunitario = function FormularioComunitario(props) {
 
   const [comunitario, setComunitario] = React.useState({_id:null,nombre:"",doppler:0,bidi:0,doble:0,consultorio:0});
   const [error, setError] = React.useState("");
   const [isLoading, setIsloading] = React.useState(false);
+
+  useEffect(()=>{
+    console.log("props.comunitario")
+    console.log(props.comunitario)
+  
+  },[])
 
   useEffect(() => {
 
@@ -143,4 +150,11 @@ const FormularioComunitario = function FormularioComunitario(props) {
   );
 };
 
-export default FormularioComunitario;
+const mapStateToProps = (state, props)=>{
+ 
+  return {
+    comunitario: state.comunitarios.comunitarios.find((c)=> c._id === props.match.params.id ) 
+  }
+}
+
+export default connect(mapStateToProps)(FormularioComunitario);
