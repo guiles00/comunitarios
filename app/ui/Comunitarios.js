@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { startFetchComunitarios } from "../actions/comunitariosActions";
 
-const Comunitarios = function Comunitarios(props) {
+export const Comunitarios = function Comunitarios(props) {
   
   React.useEffect(() => {
     props.fetchComunitarios();
