@@ -153,7 +153,7 @@ const FormularioComunitario = function FormularioComunitario(props) {
 const mapStateToProps = (state, props)=>{
  
   return {
-    comunitario: state.comunitarios.comunitarios.find((c)=> c._id === props.match.params.id ) 
+    comunitario: state.comunitarios.listaComunitarios.find((c)=> c._id === props.match.params.id ) 
   }
 }
 

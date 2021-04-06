@@ -21,6 +21,7 @@ export const startFetchComunitarios = ()=>{
   return (dispatch)=>{
     axios.get("/api/comunitarios")
     .then((res)=>{
+      console.log(res.data.comunitarios)
       dispatch(fetchComunitarios(res.data.comunitarios))
     }).catch(e => {
       console.log(e)

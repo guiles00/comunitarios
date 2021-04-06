@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { startFetchPrataComunitarios } from "../actions/prataComunitariosActions";
+import { startFetchPrataComunitarios, setStartDate, setEndDate } from "../actions/prataComunitariosActions";
+import  getVisiblePrataComunitario  from "../selectors/prataComunitarios";
 
 import PrataComunitarioItem from "./PrataComunitarioItem";
+import moment from "moment";
 
 const PrataComunitario = function PrataComunitario(props) {
 
@@ -19,6 +21,16 @@ const PrataComunitario = function PrataComunitario(props) {
     
   },[updated]);
 
+
+  const handleStartDateChange = (e)=>{
+
+    props.setStartDate(moment(e.target.value))     
+  }
+  const handleEndDateChange = (e)=>{
+console.log("entra aca?")
+    props.setEndDate(moment(e.target.value))     
+  }
+
   return (
     <div className="container-fluid pull-down" id="prataComunitario-component">
       
@@ -32,7 +44,17 @@ const PrataComunitario = function PrataComunitario(props) {
               </h2>
               <br></br> 
               <Link to={"/prataComunitario/new"} className="btn btn-primary">Agregar</Link>
-            
+              <br></br><br></br> 
+              <div className="row">
+                <div className="col-lg-4">
+                  <input className="form-control" type="date" value={moment(props.startDate).format("YYYY-MM-DD")} onChange={handleStartDateChange}></input>
+                </div>
+                <div className="col-lg-4">
+                  <input className="form-control" type="date" value={moment(props.endDate).format("YYYY-MM-DD")} onChange={handleEndDateChange}></input>
+                </div>
+                
+                </div>
+              
             </div>
             <div className="card-body p-0">
               {
@@ -53,15 +75,20 @@ const PrataComunitario = function PrataComunitario(props) {
   );
 };
 
-const mapStateToProps = (state)=>{
+const mapStateToProps = (state, props)=>{
   return {
-    prataComunitarios: state.prataComunitarios.prataComunitarios
+    prataComunitarios: getVisiblePrataComunitario(state.prataComunitarios.listadoPrataComunitarios,state.prataComunitarios.startDate,state.prataComunitarios.endDate),
+    startDate: state.prataComunitarios.startDate,
+    endDate: state.prataComunitarios.endDate
   }
 }
 
 const mapDispatchToProps = (dispatch) =>{
   return {
-    fetchPrataComunitarios: ()=> dispatch(startFetchPrataComunitarios())
+    fetchPrataComunitarios: ()=> dispatch(startFetchPrataComunitarios()),
+    setStartDate: (startDate)=> dispatch(setStartDate(startDate)),
+    setEndDate: (endDate)=> dispatch(setEndDate(endDate))
+
   }
 }
 

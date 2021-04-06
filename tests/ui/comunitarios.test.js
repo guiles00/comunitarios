@@ -2,7 +2,7 @@ import Enzyme, { mount, shallow } from 'enzyme';
 import React  from "react";
 import { Provider } from 'react-redux';
 import {BrowserRouter as Router } from "react-router-dom";
-import { Comunitarios }  from "../../app/ui/Comunitarios";
+import Comunitarios   from "../../app/ui/Comunitarios";
 import fixtureComunitarios from "../fixture/comunitarios";
 
 import { storeFactory }  from "../helpers/testUtils";
@@ -16,10 +16,10 @@ const initialState = {
 describe("Comunitario",()=>{
 
     const setup = (initialState)=>{
-
+    
       const store = storeFactory(initialState);
       const fetchComunitariosMock = jest.fn();
-      
+
       return mount(
           <Provider store={store}>
             <Router>
@@ -30,7 +30,9 @@ describe("Comunitario",()=>{
     }
 
     test("It Renders ok",() =>{
-      const wrapper = setup();
+      const wrapper = setup({
+        comunitarios: { comunitarios: [] }
+      });
       expect(wrapper.find("#comunitarios-list").length).toBe(1)
     });
 });

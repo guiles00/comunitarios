@@ -7,7 +7,7 @@ import { startFetchComunitarios } from "../actions/comunitariosActions";
 
 export const Comunitarios = function Comunitarios(props) {
 
-  React.useEffect(() => {
+ React.useEffect(() => {
     props.fetchComunitarios();
   },[]);
 
@@ -57,7 +57,8 @@ export const Comunitarios = function Comunitarios(props) {
 
 const mapStateToProps = (state)=>{
   return {
-    comunitarios: state.comunitarios.comunitarios
+    comunitarios: state.comunitarios.listaComunitarios,
+    isLoading: state.common.isLoading
   }
 }
 
