@@ -6,7 +6,8 @@ import { startFetchPrataComunitarios, setStartDate, setEndDate } from "../action
 import  getVisiblePrataComunitario  from "../selectors/prataComunitarios";
 
 import PrataComunitarioItem from "./PrataComunitarioItem";
-import moment from "moment";
+
+import { format } from 'date-fns';
 
 const PrataComunitario = function PrataComunitario(props) {
 
@@ -20,15 +21,14 @@ const PrataComunitario = function PrataComunitario(props) {
     setUpdated(false);
     
   },[updated]);
-
-
+  
   const handleStartDateChange = (e)=>{
 
-    props.setStartDate(moment(e.target.value))     
+    props.setStartDate(new Date(e.target.value+"T00:00:00"))     
   }
   const handleEndDateChange = (e)=>{
-console.log("entra aca?")
-    props.setEndDate(moment(e.target.value))     
+
+    props.setEndDate(new Date(e.target.value+"T00:00:00"))     
   }
 
   return (
@@ -47,10 +47,10 @@ console.log("entra aca?")
               <br></br><br></br> 
               <div className="row">
                 <div className="col-lg-4">
-                  <input className="form-control" type="date" value={moment(props.startDate).format("YYYY-MM-DD")} onChange={handleStartDateChange}></input>
+                  <input className="form-control" type="date" value={format(props.startDate,"yyyy-MM-dd")} onChange={handleStartDateChange}></input>
                 </div>
                 <div className="col-lg-4">
-                  <input className="form-control" type="date" value={moment(props.endDate).format("YYYY-MM-DD")} onChange={handleEndDateChange}></input>
+                  <input className="form-control" type="date" value={format(new Date(props.endDate),"yyyy-MM-dd")} onChange={handleEndDateChange}></input>
                 </div>
                 
                 </div>

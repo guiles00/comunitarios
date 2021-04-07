@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import moment from "moment";
+import { format } from 'date-fns';
 
 const PrataComunitarioItem = function PrataComunitarioItem({_id,cantidadEstudios, comunitario, fecha, index}){
     
@@ -39,7 +39,7 @@ const PrataComunitarioItem = function PrataComunitarioItem({_id,cantidadEstudios
     <div className="card-body p-0">
       <div className={["card-header", par && "bg-row"].join(" ")}>
         <span className="text-dark" onClick={handleCardClick}>
-          {moment(fecha).format("DD/MM/YY")} - <strong>Comunitario:</strong> {comunitario.nombre} - <strong>Prata:</strong>  ${total}
+          {format(new Date(fecha+"T00:00:00"),"dd/MM/yyyy")} - <strong>Comunitario:</strong> {comunitario.nombre} - <strong>Prata:</strong>  ${total}
         </span>&nbsp;
         <Link to={`/prataComunitario/${_id}`} className="btn btn-secondary">Editar</Link>
       </div>

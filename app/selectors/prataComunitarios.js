@@ -1,13 +1,13 @@
-import moment from "moment";
+import { isBefore, isAfter } from 'date-fns'
 
 const getVisiblePrataComunitario = (listadoPrataComunitarios, startDate, endDate) =>{
   
   return listadoPrataComunitarios.filter((prataComunitario)=>{
 
-    const fechaPrataComunitario = moment(prataComunitario.fecha);
-     console.log(fechaPrataComunitario)
-     const startDateMatch = startDate ? startDate.isSameOrBefore(fechaPrataComunitario, "day") :true;
-     const endDateMatch = endDate ? endDate.isSameOrAfter(fechaPrataComunitario, "day") :true;
+    const fechaPrataComunitario = new Date(prataComunitario.fecha);
+
+     const startDateMatch = startDate ? isBefore(startDate,fechaPrataComunitario) :true;
+     const endDateMatch = endDate ?  isAfter(endDate,fechaPrataComunitario) :true;
 
     return startDateMatch && endDateMatch;
 

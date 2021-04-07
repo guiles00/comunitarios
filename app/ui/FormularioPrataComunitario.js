@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import moment from "moment";
+import { format } from 'date-fns';
 
 const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
 
-  const [prataComunitario, setPrataComunitario] = useState({_id:null,fecha: moment().format('YYYY-MM-DD'),comunitarioId:"",cantidadDoppler:"",
+  const [prataComunitario, setPrataComunitario] = useState({_id:null,fecha: format(new Date(),"yyyy-MM-dd"),comunitarioId:"",cantidadDoppler:"",
     valorDoppler:0,cantidadBidi:"", valorBidi:0,cantidadDoble:"", valorDoble:0});
 
   const [total, setTotal] = useState({doppler:0,bidi:0,doble:0,total:0});
@@ -42,8 +42,6 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
   useEffect(() =>{
     axios("/api/comunitarios")
       .then(res =>{
-
-      console.log(res.data)
         setComunitarios(res.data.comunitarios)
       })
       .catch(e => {
