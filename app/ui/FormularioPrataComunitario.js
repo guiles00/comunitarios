@@ -6,20 +6,22 @@ import { format } from 'date-fns';
 const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
 
   const [prataComunitario, setPrataComunitario] = useState({_id:null,fecha: format(new Date(),"yyyy-MM-dd"),comunitarioId:"",cantidadDoppler:"",
-    valorDoppler:0,cantidadBidi:"", valorBidi:0,cantidadDoble:"", valorDoble:0});
+    valorDoppler:0,cantidadBidi:"", valorBidi:0,cantidadDoble:"", valorDoble:0,
+    cantidadConsultorio:"",valorConsultorio:0});
 
-  const [total, setTotal] = useState({doppler:0,bidi:0,doble:0,total:0});
+  const [total, setTotal] = useState({doppler:0,bidi:0,doble:0,total:0,consultorio:0});
   
   const [comunitarios, setComunitarios] = useState([]);
   const bidiRef = useRef(null);
   const dobleRef = useRef(null);
+  const consultorioRef = useRef(null);
+  
   
   useEffect(() => {
 
     if( props.match.params.id !== "new")
       axios(`/api/prataComunitario/${props.match.params.id}`)
         .then(res => {
-
           const prataComunitarioObject = { 
             _id: res.data._id,
             fecha: res.data.fecha,
@@ -30,10 +32,12 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
             valorDoble:res.data.cantidadEstudios.valorDoble,
             cantidadBidi:res.data.cantidadEstudios.cantidadBidi,
             valorBidi:res.data.cantidadEstudios.valorBidi,
+            cantidadConsultorio: res.data.cantidadEstudios.cantidadConsultorio,
+            valorConsultorio: res.data.cantidadEstudios.valorConsultorio
             
-           } 
-     
-           setPrataComunitario(prataComunitarioObject);
+          } 
+          
+          setPrataComunitario(prataComunitarioObject);
 
         }).catch(e => { console.log(e); });
 
@@ -73,6 +77,7 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
   };
 
   const handleInputChange = function(e) {
+    
     const { name, value } = e.target;
     setPrataComunitario({ ...prataComunitario, [name]: value });
   };
@@ -90,14 +95,23 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
   };
 
   const handleOnBlurDoble = function(){
+    consultorioRef.current.focus();
     setTotal({...total, "doble":(prataComunitario.valorDoble*prataComunitario.cantidadDoble)});
   };
 
+  const handleOnBlurConsultorio = function(){
+  
+   setTotal({...total, "consultorio":(prataComunitario.valorConsultorio*prataComunitario.cantidadConsultorio)});
+  };
+
   const handleChangeComunitario = function(c) {
-   
-     const valores = comunitarios.find(element => element._id === c.target.value);
+    const valores = comunitarios.find(element => element._id === c.target.value);
+
      const { doppler, bidi, doble, consultorio } = valores.estudios[valores.estudios.length - 1];
-     setPrataComunitario({ ...prataComunitario, "comunitarioId":c.target.value,"valorDoppler": doppler, "valorBidi":bidi,"valorDoble":doble });
+     
+     setPrataComunitario({ ...prataComunitario, "comunitarioId":c.target.value
+       ,"valorDoppler": doppler, "valorBidi":bidi,"valorDoble":doble,
+      "valorConsultorio":consultorio });
     
   };
 
@@ -105,8 +119,6 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
     let deshabilitar = false;
 
     if(prataComunitario.comunitarioId === "") deshabilitar = true; 
-
-    console.log(prataComunitario)
 
     return deshabilitar;
   }
@@ -136,7 +148,9 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
                     <div className="col-lg-2 col-sm-12 ">
                       Doppler (${prataComunitario.valorDoppler}):
                     </div>
-                    <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="cantidadDoppler" value={prataComunitario.cantidadDoppler} onChange={handleInputChange} onBlur={handleOnBlurDoppler}></input>
+                    <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="cantidadDoppler" value={prataComunitario.cantidadDoppler} 
+                      onChange={handleInputChange} 
+                      onBlur={handleOnBlurDoppler}></input>
                     <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="totalDoppler" value={total.doppler} readOnly></input>
                   </div>
 
@@ -144,7 +158,8 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
                     <div className="col-lg-2 col-sm-12 ">
                      BIDI (${prataComunitario.valorBidi}):
                     </div>
-                    <input ref={bidiRef} type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="cantidadBidi" value={prataComunitario.cantidadBidi} onChange={handleInputChange}
+                    <input ref={bidiRef} type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="cantidadBidi" value={prataComunitario.cantidadBidi} 
+                      onChange={handleInputChange}
                       onBlur={handleOnBlurBidi}></input>
                     <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="totalBidi" value={total.bidi} readOnly></input>
                   </div>
@@ -153,10 +168,21 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
                     <div className="col-lg-2 col-sm-12 ">
                      Doble (${prataComunitario.valorDoble}):
                     </div>
-                    <input ref={dobleRef} type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="cantidadDoble" value={prataComunitario.cantidadDoble} onChange={handleInputChange}
+                    <input ref={dobleRef} type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="cantidadDoble" value={prataComunitario.cantidadDoble} 
+                      onChange={handleInputChange}
                       onBlur={handleOnBlurDoble}></input>
                     <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="totalDoble" value={total.doble} readOnly></input>
                   </div>
+                  <div className="form-group row">
+                    <div className="col-lg-2 col-sm-12 ">
+                     Consultorio (${prataComunitario.valorConsultorio}):
+                    </div>
+                    <input ref={consultorioRef} type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="cantidadConsultorio" value={prataComunitario.cantidadConsultorio} 
+                      onChange={handleInputChange}
+                      onBlur={handleOnBlurConsultorio}></input>
+                    <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="totalConsultorio" value={total.consultorio} readOnly></input>
+                  </div>
+
 
                   <div className="form-group row">
                     <span className="col-lg-2 col-sm-6 mt-2">

@@ -47,7 +47,7 @@ const PrataComunitario = function PrataComunitario(props) {
               <br></br><br></br> 
               <div className="row">
                 <div className="col-lg-4">
-                  <input className="form-control" type="date" value={format(props.startDate,"yyyy-MM-dd")} onChange={handleStartDateChange}></input>
+                  <input className="form-control" type="date" value={format(props.startDate,"yyyy-MM-dd")} onChange={handleStartDateChange} ></input>
                 </div>
                 <div className="col-lg-4">
                   <input className="form-control" type="date" value={format(new Date(props.endDate),"yyyy-MM-dd")} onChange={handleEndDateChange}></input>

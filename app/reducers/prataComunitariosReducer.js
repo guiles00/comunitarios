@@ -1,4 +1,3 @@
-import moment from "moment";
 import { startOfMonth, endOfMonth } from 'date-fns'
 
 import { FETCH_PRATA_COMUNITARIOS, SET_START_DATE,SET_END_DATE, FETCH_PRATA_COMUNITARIOS_ERROR, FETCH_PRATA_COMUNITARIOS_LOADING} from "../actions/prataComunitariosActions";

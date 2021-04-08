@@ -21,9 +21,9 @@ module.exports = function(){
   
   const addPrataComunitario = async function addPrataComunitario(req, res){
    
-    const {fecha, comunitarioId, cantidadDoppler,valorDoppler,cantidadBidi, valorBidi , cantidadDoble, valorDoble} = req.body;
+    const {fecha, comunitarioId, cantidadDoppler,valorDoppler,cantidadBidi, valorBidi , cantidadDoble, valorDoble, cantidadConsultorio, valorConsultorio } = req.body;
 
-    const cantidadEstudios = { cantidadDoppler, valorDoppler, cantidadDoble, valorDoble, cantidadBidi, valorBidi }
+    const cantidadEstudios = { cantidadDoppler, valorDoppler, cantidadDoble, valorDoble, cantidadBidi, valorBidi, cantidadConsultorio, valorConsultorio }
     
     const prataComunitario = new PrataComunitario({fecha:fecha,comunitario:comunitarioId,cantidadEstudios });
 

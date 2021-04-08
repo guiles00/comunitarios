@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 const PrataComunitarioItem = function PrataComunitarioItem({_id,cantidadEstudios, comunitario, fecha, index}){
     
   const [show, setShow] = useState(false);
-  const { cantidadDoppler, valorDoppler, cantidadDoble, valorDoble, cantidadBidi, valorBidi } = cantidadEstudios; 
+  const { cantidadDoppler, valorDoppler, cantidadDoble, valorDoble, cantidadBidi, valorBidi, cantidadConsultorio, valorConsultorio } = cantidadEstudios; 
   
   const handleCardClick = function handleCardClick(){
     setShow(!show);  
@@ -19,6 +19,7 @@ const PrataComunitarioItem = function PrataComunitarioItem({_id,cantidadEstudios
           <th>Doppler</th>
           <th>Doble</th>
           <th>Bidi</th>
+          <th>Consultorio</th>
         </tr>
       </thead>
       <tbody>
@@ -26,6 +27,7 @@ const PrataComunitarioItem = function PrataComunitarioItem({_id,cantidadEstudios
         <td>{cantidadDoppler}</td>
         <td>{cantidadDoble}</td>
         <td>{cantidadBidi}</td>
+        <td>{cantidadConsultorio}</td>
         </tr>
       </tbody>
     </table>);
@@ -33,7 +35,8 @@ const PrataComunitarioItem = function PrataComunitarioItem({_id,cantidadEstudios
   const par = (index % 2 === 0);
   
     
-  const total = (cantidadDoppler * valorDoppler) + (cantidadDoble * valorDoble) + (cantidadBidi * valorBidi);
+  const total = (cantidadDoppler * valorDoppler) + (cantidadDoble * valorDoble) 
+    + (cantidadBidi * valorBidi) + (cantidadConsultorio * valorConsultorio);
    
   return <div className="card" >
     <div className="card-body p-0">

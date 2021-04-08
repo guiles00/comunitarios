@@ -8,8 +8,6 @@ import fixtureComunitarios from "../fixture/comunitarios";
 import { storeFactory }  from "../helpers/testUtils";
 
 const initialState = {
-  isLoading: false,
-  error:"",
   comunitarios: []
 }
 
@@ -29,7 +27,7 @@ describe("Comunitario",()=>{
            );
     }
 
-    test("It Renders ok",() =>{
+    xtest("It Renders ok",() =>{
       const wrapper = setup({
         comunitarios: { comunitarios: [] }
       });
