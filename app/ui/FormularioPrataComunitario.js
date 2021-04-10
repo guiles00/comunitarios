@@ -2,31 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { format } from 'date-fns';
-
-//TODO: Pasarle la ref para que vaya al otro input
-const InputPrataComunitario = ({valor,name,cantidad,handleInputChange})=>{
-  const [total, setTotal] = useState(0);
-
-  const handleOnBlur = ()=>{
-    
-    //Debería parsear a Int? 
-    setTotal(valor * cantidad);
-  }
-
-  return (
-    <div className="form-group row">
-      <div className="col-lg-2 col-sm-12 ">
-        {name} (${valor}):
-      </div>
-      <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name={"cantidad"+name} value={cantidad} 
-        onChange={handleInputChange} 
-        onBlur={handleOnBlur}
-        ></input>
-      <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name={"total"+name} value={total} readOnly></input>
-    </div>
-  );
-}
-
+import InputPrataComunitario from "./InputPrataComunitario";
 
 const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
 
@@ -88,7 +64,16 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
       .catch((e)=>{console.log(e) });;
  
     }else{
-      console.log("actualiza");
+    
+      axios.put(`/api/prataComunitario/${prataComunitario._id}`, prataComunitario)
+      .then((res)=>{
+        console.log(res);
+        console.log("actualiza")
+      })
+      .catch((e)=>{
+        console.log(e)
+      })
+      
     }
 
   };
@@ -180,75 +165,3 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
 };
 
 export default FormularioPrataComunitario;
-
-
-/* 
-
-
-const handleOnBlurDoppler = function(){
-
-    bidiRef.current.focus();
-
-    setTotal({...total, "doppler":(prataComunitario.valorDoppler*prataComunitario.cantidadDoppler)});
-  };
-
-  const handleOnBlurBidi = function(){
-    dobleRef.current.focus();
-    setTotal({...total, "bidi":(prataComunitario.valorBidi*prataComunitario.cantidadBidi)});
-  };
-
-  const handleOnBlurDoble = function(){
-    consultorioRef.current.focus();
-    setTotal({...total, "doble":(prataComunitario.valorDoble*prataComunitario.cantidadDoble)});
-  };
-
-  const handleOnBlurConsultorio = function(){
-  
-   setTotal({...total, "consultorio":(prataComunitario.valorConsultorio*prataComunitario.cantidadConsultorio)});
-  };
-
-
-
-
-<div className="form-group row">
-                    <div className="col-lg-2 col-sm-12 ">
-                      Doppler (${prataComunitario.valorDoppler}):
-                    </div>
-                    <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="cantidadDoppler" value={prataComunitario.cantidadDoppler} 
-                      onChange={handleInputChange} 
-                      onBlur={handleOnBlurDoppler}></input>
-                    <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="totalDoppler" value={total.doppler} readOnly></input>
-                  </div> 
-                  
-                    <div className="form-group row">
-                    <div className="col-lg-2 col-sm-12 ">
-                     BIDI (${prataComunitario.valorBidi}):
-                    </div>
-                    <input ref={bidiRef} type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="cantidadBidi" value={prataComunitario.cantidadBidi} 
-                      onChange={handleInputChange}
-                      onBlur={handleOnBlurBidi}></input>
-                    <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="totalBidi" value={total.bidi} readOnly></input>
-                  </div>
-
-                  <div className="form-group row">
-                    <div className="col-lg-2 col-sm-12 ">
-                     Doble (${prataComunitario.valorDoble}):
-                    </div>
-                    <input ref={dobleRef} type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="cantidadDoble" value={prataComunitario.cantidadDoble} 
-                      onChange={handleInputChange}
-                      onBlur={handleOnBlurDoble}></input>
-                    <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="totalDoble" value={total.doble} readOnly></input>
-                  </div>
-                  <div className="form-group row">
-                    <div className="col-lg-2 col-sm-12 ">
-                     Consultorio (${prataComunitario.valorConsultorio}):
-                    </div>
-                    <input ref={consultorioRef} type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="cantidadConsultorio" value={prataComunitario.cantidadConsultorio} 
-                      onChange={handleInputChange}
-                      onBlur={handleOnBlurConsultorio}></input>
-                    <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="totalConsultorio" value={total.consultorio} readOnly></input>
-                  </div>
-
-                  
-                  
-                  */

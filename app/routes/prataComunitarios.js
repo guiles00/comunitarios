@@ -54,7 +54,33 @@ module.exports = function(){
     }
   };
 
+  const edit = async function edit(req, res){
+  
+    const _id = req.params.id;
+    
+    const {fecha, comunitarioId, cantidadDoppler,valorDoppler,cantidadBidi, valorBidi , cantidadDoble, valorDoble, cantidadConsultorio, valorConsultorio } = req.body;
 
-  return { getAll, addPrataComunitario,findById };
+    const cantidadEstudios = { cantidadDoppler, valorDoppler, cantidadDoble, valorDoble, cantidadBidi, valorBidi, cantidadConsultorio, valorConsultorio }
+    try{
+      //Esto no funciona, lo dejo acá porque debería ser así, más facil.
+      // const prataComunitario = await PrataComunitario.findOneAndUpdate(_id,{fecha,comunitario:comunitarioId},{
+      //   new: true
+      // });
+    
+      const prataComunitario = await PrataComunitario.findById(_id)
+      prataComunitario.fecha = fecha;
+      prataComunitario.comunitario = comunitarioId;
+      prataComunitario.cantidadEstudios = cantidadEstudios;
+
+      await prataComunitario.save();
+
+      res.status(200).send("Actualizado con exito");
+    }catch(e){
+      console.log(e);
+      res.status(500).send({ "error":"Error tratando de editar" });
+    }
+  }
+
+  return { getAll, addPrataComunitario,findById, edit };
 
 };
