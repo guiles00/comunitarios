@@ -3,14 +3,37 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { format } from 'date-fns';
 
+//TODO: Pasarle la ref para que vaya al otro input
+const InputPrataComunitario = ({valor,name,cantidad,handleInputChange})=>{
+  const [total, setTotal] = useState(0);
+
+  const handleOnBlur = ()=>{
+    
+    //Debería parsear a Int? 
+    setTotal(valor * cantidad);
+  }
+
+  return (
+    <div className="form-group row">
+      <div className="col-lg-2 col-sm-12 ">
+        {name} (${valor}):
+      </div>
+      <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name={"cantidad"+name} value={cantidad} 
+        onChange={handleInputChange} 
+        onBlur={handleOnBlur}
+        ></input>
+      <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name={"total"+name} value={total} readOnly></input>
+    </div>
+  );
+}
+
+
 const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
 
   const [prataComunitario, setPrataComunitario] = useState({_id:null,fecha: format(new Date(),"yyyy-MM-dd"),comunitarioId:"",cantidadDoppler:"",
     valorDoppler:0,cantidadBidi:"", valorBidi:0,cantidadDoble:"", valorDoble:0,
     cantidadConsultorio:"",valorConsultorio:0});
 
-  const [total, setTotal] = useState({doppler:0,bidi:0,doble:0,total:0,consultorio:0});
-  
   const [comunitarios, setComunitarios] = useState([]);
   const bidiRef = useRef(null);
   const dobleRef = useRef(null);
@@ -48,28 +71,22 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
       .then(res =>{
         setComunitarios(res.data.comunitarios)
       })
-      .catch(e => {
-        console.log(e);
-      });
+      .catch(e => {console.log(e);});
   },[]);
 
   const handleSubmit = function(e) {
     e.preventDefault();
+
     if(prataComunitario._id === null){
 
       axios({
         method: "post",
         url: "/api/prataComunitario",
         data: prataComunitario
-      }).then((res)=>{
-
-        props.history.push("/prataComunitario");
-        
-      }).catch((e)=>{
-        console.log(e)
-      });;
-      
-      
+      })
+      .then((res)=>{ props.history.push("/prataComunitario");})
+      .catch((e)=>{console.log(e) });;
+ 
     }else{
       console.log("actualiza");
     }
@@ -77,31 +94,8 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
   };
 
   const handleInputChange = function(e) {
-    
     const { name, value } = e.target;
     setPrataComunitario({ ...prataComunitario, [name]: value });
-  };
-
-  const handleOnBlurDoppler = function(){
-
-    bidiRef.current.focus();
-
-    setTotal({...total, "doppler":(prataComunitario.valorDoppler*prataComunitario.cantidadDoppler)});
-  };
-
-  const handleOnBlurBidi = function(){
-    dobleRef.current.focus();
-    setTotal({...total, "bidi":(prataComunitario.valorBidi*prataComunitario.cantidadBidi)});
-  };
-
-  const handleOnBlurDoble = function(){
-    consultorioRef.current.focus();
-    setTotal({...total, "doble":(prataComunitario.valorDoble*prataComunitario.cantidadDoble)});
-  };
-
-  const handleOnBlurConsultorio = function(){
-  
-   setTotal({...total, "consultorio":(prataComunitario.valorConsultorio*prataComunitario.cantidadConsultorio)});
   };
 
   const handleChangeComunitario = function(c) {
@@ -144,7 +138,79 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
                       {comunitarios.map(function(o){return <option key={o._id} value={o._id}> {o.nombre} </option>;})}
                     </select>
                   </div>
+
+                  <InputPrataComunitario  valor={prataComunitario.valorDoppler} cantidad={prataComunitario.cantidadDoppler} 
+                    handleInputChange={handleInputChange} name="Doppler" />
+                  
+                  <InputPrataComunitario  valor={prataComunitario.valorBidi} cantidad={prataComunitario.cantidadBidi} 
+                    handleInputChange={handleInputChange} name="Bidi" />
+                  
+                  <InputPrataComunitario  valor={prataComunitario.valorDoble} cantidad={prataComunitario.cantidadDoble} 
+                    handleInputChange={handleInputChange} name="Doble" />
+                  
+                  <InputPrataComunitario  valor={prataComunitario.valorConsultorio} cantidad={prataComunitario.cantidadConsultorio} 
+                    handleInputChange={handleInputChange} name="Consultorio" />
+                  
                   <div className="form-group row">
+                    <span className="col-lg-2 col-sm-6 mt-2">
+                      Total hoy:
+                    </span>
+                    <span className="col-lg-3 col-sm-6 mt-2">
+                      $
+                    </span>
+                  </div>
+                </div>
+
+                <div className="card-footer text-muted">
+                  <div className="form-group">
+                    <button type="submit" className="btn btn-icon btn-primary" disabled={isDisabled()}>
+                      Guardar
+                    </button> &nbsp;
+                    <Link to={"/prataComunitario"} className="btn btn-dark">Volver</Link> &nbsp;&nbsp;
+                  </div>
+                </div>
+              </div>
+
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default FormularioPrataComunitario;
+
+
+/* 
+
+
+const handleOnBlurDoppler = function(){
+
+    bidiRef.current.focus();
+
+    setTotal({...total, "doppler":(prataComunitario.valorDoppler*prataComunitario.cantidadDoppler)});
+  };
+
+  const handleOnBlurBidi = function(){
+    dobleRef.current.focus();
+    setTotal({...total, "bidi":(prataComunitario.valorBidi*prataComunitario.cantidadBidi)});
+  };
+
+  const handleOnBlurDoble = function(){
+    consultorioRef.current.focus();
+    setTotal({...total, "doble":(prataComunitario.valorDoble*prataComunitario.cantidadDoble)});
+  };
+
+  const handleOnBlurConsultorio = function(){
+  
+   setTotal({...total, "consultorio":(prataComunitario.valorConsultorio*prataComunitario.cantidadConsultorio)});
+  };
+
+
+
+
+<div className="form-group row">
                     <div className="col-lg-2 col-sm-12 ">
                       Doppler (${prataComunitario.valorDoppler}):
                     </div>
@@ -152,9 +218,9 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
                       onChange={handleInputChange} 
                       onBlur={handleOnBlurDoppler}></input>
                     <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="totalDoppler" value={total.doppler} readOnly></input>
-                  </div>
-
-                  <div className="form-group row">
+                  </div> 
+                  
+                    <div className="form-group row">
                     <div className="col-lg-2 col-sm-12 ">
                      BIDI (${prataComunitario.valorBidi}):
                     </div>
@@ -183,33 +249,6 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
                     <input type="text" className="form-control col-lg-3 col-sm-12 mt-2" name="totalConsultorio" value={total.consultorio} readOnly></input>
                   </div>
 
-
-                  <div className="form-group row">
-                    <span className="col-lg-2 col-sm-6 mt-2">
-                      Total hoy:
-                    </span>
-                    <span className="col-lg-3 col-sm-6 mt-2">
-                      ${total.bidi+total.doppler}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="card-footer text-muted">
-                  <div className="form-group">
-                    <button type="submit" className="btn btn-icon btn-primary" disabled={isDisabled()}>
-                      Guardar
-                    </button> &nbsp;
-                    <Link to={"/prataComunitario"} className="btn btn-dark">Volver</Link> &nbsp;&nbsp;
-                  </div>
-                </div>
-              </div>
-
-            </fieldset>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default FormularioPrataComunitario;
+                  
+                  
+                  */
