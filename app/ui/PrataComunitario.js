@@ -31,7 +31,7 @@ const PrataComunitario = function PrataComunitario(props) {
   }
 
   return (
-    <div className="container-fluid pull-down" id="prataComunitario-component">
+    <div className="container-fluid" id="prataComunitario-component">
       
       <div className="row">             
         <div className="col-sm-1 col-lg-2"></div>
