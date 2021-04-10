@@ -38,18 +38,22 @@ const PrataComunitarioItem = function PrataComunitarioItem({_id,cantidadEstudios
   const total = (cantidadDoppler * valorDoppler) + (cantidadDoble * valorDoble) 
     + (cantidadBidi * valorBidi) + (cantidadConsultorio * valorConsultorio);
    
+  const Encabezado = (
+    <div className="row">
+      <div className="col-lg-2">{format(new Date(fecha+"T00:00:00"),"dd/MM/yyyy")}</div>
+      <div className="col-lg-2">{comunitario.nombre}</div>
+      <div className="col-lg-2">${total}</div>
+      <div className="col-lg-2"><Link to={`/prataComunitario/${_id}`} className="btn btn-secondary">Editar</Link></div>
+    </div>);
+
   return <div className="card" >
     <div className="card-body p-0">
       <div className={["card-header", par && "bg-row"].join(" ")}>
-        <span className="text-dark" onClick={handleCardClick}>
-          {format(new Date(fecha+"T00:00:00"),"dd/MM/yyyy")} - <strong>Comunitario:</strong> {comunitario.nombre} - <strong>Prata:</strong>  ${total}
-        </span>&nbsp;
-        <Link to={`/prataComunitario/${_id}`} className="btn btn-secondary">Editar</Link>
+        {Encabezado}
       </div>
       {show && tablaEstudios}        
     </div>
   </div>;
 };
-
 
 export default PrataComunitarioItem;
