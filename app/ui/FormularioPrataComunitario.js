@@ -101,6 +101,11 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
 
     return deshabilitar;
   }
+
+  const isDisabledInput = ()=>{
+    return (prataComunitario.comunitarioId === "")
+  }
+
   return (
     <div className="container-fluid pull-down ">
       <div className="row justify-content-md-center">
@@ -125,16 +130,16 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
                   </div>
 
                   <InputPrataComunitario  valor={prataComunitario.valorDoppler} cantidad={prataComunitario.cantidadDoppler} 
-                    handleInputChange={handleInputChange} name="Doppler" />
+                    handleInputChange={handleInputChange} name="Doppler" disabled={isDisabledInput()}/>
                   
                   <InputPrataComunitario  valor={prataComunitario.valorBidi} cantidad={prataComunitario.cantidadBidi} 
-                    handleInputChange={handleInputChange} name="Bidi" />
+                    handleInputChange={handleInputChange} name="Bidi" disabled={isDisabledInput()}/>
                   
                   <InputPrataComunitario  valor={prataComunitario.valorDoble} cantidad={prataComunitario.cantidadDoble} 
-                    handleInputChange={handleInputChange} name="Doble" />
+                    handleInputChange={handleInputChange} name="Doble" disabled={isDisabledInput()}/>
                   
                   <InputPrataComunitario  valor={prataComunitario.valorConsultorio} cantidad={prataComunitario.cantidadConsultorio} 
-                    handleInputChange={handleInputChange} name="Consultorio" />
+                    handleInputChange={handleInputChange} name="Consultorio" disabled={isDisabledInput()}/>
                   
                   <div className="form-group row">
                     <span className="col-lg-2 col-sm-6 mt-2">

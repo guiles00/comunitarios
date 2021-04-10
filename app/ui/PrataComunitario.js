@@ -11,7 +11,6 @@ import { format } from 'date-fns';
 
 const PrataComunitario = function PrataComunitario(props) {
 
-  //const [prataComunitario, setPrataComunitario] = useState([]);
   const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
