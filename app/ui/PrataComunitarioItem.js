@@ -40,10 +40,10 @@ const PrataComunitarioItem = function PrataComunitarioItem({_id,cantidadEstudios
    
   const Encabezado = (
     <div className="row">
-      <div className="col-lg-2" onClick={handleClick}>{format(new Date(fecha+"T00:00:00"),"dd/MM/yyyy")}</div>
-      <div className="col-lg-2" onClick={handleClick}>{comunitario.nombre}</div>
-      <div className="col-lg-2" onClick={handleClick}>${total}</div>
-      <div className="col-lg-2"><Link to={`/prataComunitario/${_id}`} className="btn btn-primary">Editar</Link></div>
+      <div className="col-3" onClick={handleClick}>{format(new Date(fecha+"T00:00:00"),"dd/MM/yyyy")}</div>
+      <div className="col-3" onClick={handleClick}>{comunitario.nombre}</div>
+      <div className="col-3" onClick={handleClick}>${total}</div>
+      <div className="col-3"><Link to={`/prataComunitario/${_id}`} className="btn btn-primary">Editar</Link></div>
     </div>);
 
   return <div className="card" >
