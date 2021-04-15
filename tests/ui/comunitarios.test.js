@@ -7,30 +7,26 @@ import fixtureComunitarios from "../fixture/comunitarios";
 
 import { storeFactory }  from "../helpers/testUtils";
 
-const initialState = {
-  comunitarios: []
-}
-
 describe("Comunitario",()=>{
 
     const setup = (initialState)=>{
-    
+
       const store = storeFactory(initialState);
-      const fetchComunitariosMock = jest.fn();
 
       return mount(
           <Provider store={store}>
             <Router>
-              <Comunitarios fetchComunitarios={fetchComunitariosMock} comunitarios={[]}/>
+              <Comunitarios />
             </Router>
           </Provider>
            );
     }
 
-    xtest("It Renders ok",() =>{
+    test("It Renders ok",() =>{
       const wrapper = setup({
-        comunitarios: { comunitarios: [] }
+        comunitarios: { listaComunitarios: [] }
       });
+
       expect(wrapper.find("#comunitarios-list").length).toBe(1)
     });
 });

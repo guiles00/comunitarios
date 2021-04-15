@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { startFetchPrataComunitarios, setStartDate, setEndDate } from "../actions/prataComunitariosActions";
 import  getVisiblePrataComunitario  from "../selectors/prataComunitarios";
 
@@ -12,22 +12,25 @@ import { format } from 'date-fns';
 const PrataComunitario = function PrataComunitario(props) {
 
   const [updated, setUpdated] = useState(false);
+  const startDate = useSelector(state => state.prataComunitarios.startDate);
+  const endDate = useSelector(state => state.prataComunitarios.endDate);  
+  const listadoPrataComunitarios = useSelector(state => getVisiblePrataComunitario(state.prataComunitarios.listadoPrataComunitarios,startDate,endDate));
+  const dispatch = useDispatch()
 
   useEffect(() => {
 
-    props.fetchPrataComunitarios();
-  
+    dispatch(startFetchPrataComunitarios());  
     setUpdated(false);
     
   },[updated]);
   
   const handleStartDateChange = (e)=>{
 
-    props.setStartDate(new Date(e.target.value+"T00:00:00"))     
+    dispatch(setStartDate(new Date(e.target.value+"T00:00:00")) )
   }
   const handleEndDateChange = (e)=>{
 
-    props.setEndDate(new Date(e.target.value+"T00:00:00"))     
+    dispatch(setEndDate(new Date(e.target.value+"T00:00:00")) );
   }
 
   return (
@@ -46,10 +49,10 @@ const PrataComunitario = function PrataComunitario(props) {
               <br></br><br></br> 
               <div className="row">
                 <div className="col-lg-4">
-                  <input className="form-control" type="date" value={format(props.startDate,"yyyy-MM-dd")} onChange={handleStartDateChange} ></input>
+                  <input className="form-control" type="date" value={format(startDate,"yyyy-MM-dd")} onChange={handleStartDateChange} ></input>
                 </div>
                 <div className="col-lg-4">
-                  <input className="form-control" type="date" value={format(new Date(props.endDate),"yyyy-MM-dd")} onChange={handleEndDateChange}></input>
+                  <input className="form-control" type="date" value={format(new Date(endDate),"yyyy-MM-dd")} onChange={handleEndDateChange}></input>
                 </div>
                 
                 </div>
@@ -57,7 +60,7 @@ const PrataComunitario = function PrataComunitario(props) {
             </div>
             <div className="card-body p-0">
               {
-                props.prataComunitarios.map((p,index)=>{
+                listadoPrataComunitarios.map((p,index)=>{
 
                   return <PrataComunitarioItem index={index} key={p._id} {...p}/>;
                 })
@@ -74,21 +77,4 @@ const PrataComunitario = function PrataComunitario(props) {
   );
 };
 
-const mapStateToProps = (state, props)=>{
-  return {
-    prataComunitarios: getVisiblePrataComunitario(state.prataComunitarios.listadoPrataComunitarios,state.prataComunitarios.startDate,state.prataComunitarios.endDate),
-    startDate: state.prataComunitarios.startDate,
-    endDate: state.prataComunitarios.endDate
-  }
-}
-
-const mapDispatchToProps = (dispatch) =>{
-  return {
-    fetchPrataComunitarios: ()=> dispatch(startFetchPrataComunitarios()),
-    setStartDate: (startDate)=> dispatch(setStartDate(startDate)),
-    setEndDate: (endDate)=> dispatch(setEndDate(endDate))
-
-  }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(PrataComunitario);
+export default PrataComunitario;

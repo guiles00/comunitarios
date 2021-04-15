@@ -2,13 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ComunitarioItem from "./ComunitarioItem";
 
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { startFetchComunitarios } from "../actions/comunitariosActions";
 
 export const Comunitarios = function Comunitarios(props) {
 
- React.useEffect(() => {
-    props.fetchComunitarios();
+  const isLoading = useSelector(state=>state.common.isLoading);
+  const comunitarios = useSelector(state=>state.comunitarios.listaComunitarios);
+
+  const dispatch = useDispatch();
+  
+  React.useEffect(() => {
+    dispatch(startFetchComunitarios());
   },[]);
 
   return (
@@ -38,7 +43,7 @@ export const Comunitarios = function Comunitarios(props) {
                   </tr>
                 </thead>
                 <tbody>
-                  {props.comunitarios.map((comunitario)=>{
+                  {comunitarios.map((comunitario)=>{
                     return (
                       <ComunitarioItem key={comunitario._id} {...comunitario}/>
                     );
@@ -55,16 +60,4 @@ export const Comunitarios = function Comunitarios(props) {
   );
 };
 
-const mapStateToProps = (state)=>{
-  return {
-    comunitarios: state.comunitarios.listaComunitarios,
-    isLoading: state.common.isLoading
-  }
-}
-
-const mapDispatchToProps = (dispatch)=>{
-  return {
-    fetchComunitarios: ()=> dispatch(startFetchComunitarios())
-  }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(Comunitarios);
+export default Comunitarios;
