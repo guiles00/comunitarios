@@ -25,8 +25,9 @@ describe("PrataComunitario", ()=>{
     const wrapper = setup({
       prataComunitarios: { 
         listadoPrataComunitarios: [], 
-        startDate: new Date(),
-        endDate: new Date}
+        startDate: "2021-01-01",
+        endDate: "2021-01-01" 
+      }
     })
     
   })

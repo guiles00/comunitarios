@@ -15,8 +15,8 @@ const PrataComunitario = function PrataComunitario(props) {
   const startDate = useSelector(state => state.prataComunitarios.startDate);
   const endDate = useSelector(state => state.prataComunitarios.endDate);  
   const listadoPrataComunitarios = useSelector(state => getVisiblePrataComunitario(state.prataComunitarios.listadoPrataComunitarios,startDate,endDate));
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch()  
+  
   useEffect(() => {
 
     dispatch(startFetchPrataComunitarios());  
@@ -25,12 +25,11 @@ const PrataComunitario = function PrataComunitario(props) {
   },[updated]);
   
   const handleStartDateChange = (e)=>{
-
-    dispatch(setStartDate(new Date(e.target.value+"T00:00:00")) )
+    dispatch(setStartDate(e.target.value) )
   }
   const handleEndDateChange = (e)=>{
 
-    dispatch(setEndDate(new Date(e.target.value+"T00:00:00")) );
+    dispatch(setEndDate(e.target.value) );
   }
 
   return (
@@ -49,10 +48,10 @@ const PrataComunitario = function PrataComunitario(props) {
               <br></br><br></br> 
               <div className="row">
                 <div className="col-lg-4">
-                  <input className="form-control" type="date" value={format(startDate,"yyyy-MM-dd")} onChange={handleStartDateChange} ></input>
+                  <input className="form-control" type="date" value={format(new Date(startDate+"T00:00:00"),"yyyy-MM-dd")} onChange={handleStartDateChange} ></input>
                 </div>
                 <div className="col-lg-4">
-                  <input className="form-control" type="date" value={format(new Date(endDate),"yyyy-MM-dd")} onChange={handleEndDateChange}></input>
+                  <input className="form-control" type="date" value={format(new Date(endDate+"T00:00:00"),"yyyy-MM-dd")} onChange={handleEndDateChange}></input>
                 </div>
                 
                 </div>

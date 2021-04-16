@@ -1,10 +1,10 @@
-import { startOfMonth, endOfMonth } from 'date-fns'
+import { format, startOfMonth, endOfMonth } from 'date-fns'
 
 import { FETCH_PRATA_COMUNITARIOS, SET_START_DATE,SET_END_DATE, FETCH_PRATA_COMUNITARIOS_ERROR, FETCH_PRATA_COMUNITARIOS_LOADING} from "../actions/prataComunitariosActions";
 
 const initialState = {
-  startDate: startOfMonth(new Date()),
-  endDate: endOfMonth(new Date()),
+  startDate: format(startOfMonth(new Date()),"yyyy-MM-dd"),
+  endDate: format(endOfMonth(new Date()),"yyyy-MM-dd"),
   listadoPrataComunitarios: []
 }
 
