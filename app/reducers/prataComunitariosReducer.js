@@ -1,6 +1,7 @@
 import { format, startOfMonth, endOfMonth } from 'date-fns'
 
-import { FETCH_PRATA_COMUNITARIOS, SET_START_DATE,SET_END_DATE, FETCH_PRATA_COMUNITARIOS_ERROR, FETCH_PRATA_COMUNITARIOS_LOADING} from "../actions/prataComunitariosActions";
+import { FETCH_PRATA_COMUNITARIOS, SET_START_DATE,SET_END_DATE, 
+  DELETE_PRATA_COMUNITARIO, FETCH_PRATA_COMUNITARIOS_ERROR, FETCH_PRATA_COMUNITARIOS_LOADING} from "../actions/prataComunitariosActions";
 
 const initialState = {
   startDate: format(startOfMonth(new Date()),"yyyy-MM-dd"),
@@ -19,10 +20,18 @@ const prataComunitariosReducer = (state = initialState, action)=>{
     case FETCH_PRATA_COMUNITARIOS:
       
       return {...state, listadoPrataComunitarios:action.payload}
+    case DELETE_PRATA_COMUNITARIO:
+      
+      const newListado = state.listadoPrataComunitarios.filter((pc)=>{
+        return pc._id !== action.payload;
+      });
+      const newState = {...state,listadoPrataComunitarios: newListado};
+      
+      return newState; 
+    
     default:
       return state;
   }
 }
-
 
 export default prataComunitariosReducer;

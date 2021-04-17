@@ -7,6 +7,7 @@ export const FETCH_PRATA_COMUNITARIOS_LOADING = "FETCH_PRATA_COMUNITARIOS_ERROR"
 export const SET_START_DATE = "SET_START_DATE";
 export const SET_END_DATE = "SET_END_DATE";
 
+export const DELETE_PRATA_COMUNITARIO = "DELETE_PRATA_COMUNITARIO";
 
 export const setStartDate = (startDate) =>{
   return {
@@ -49,3 +50,21 @@ export const startFetchPrataComunitarios = ()=>{
   }
 }
 
+export const deletePrataComunitario = (id)=>{
+  return {
+    type: DELETE_PRATA_COMUNITARIO,
+    payload: id
+  }
+} 
+
+export const startDeletePrataComunitario = (id)=>{
+  return (dispatch) => {
+    axios.delete(`/api/prataComunitario/${id}`)
+    .then(()=>{
+      
+     // dispatch(deletePrataComunitario(id));
+    }).catch(e=>{
+      console.log(e);
+    })
+  }
+}

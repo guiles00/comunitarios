@@ -4,6 +4,9 @@ import axios from "axios";
 import { format } from 'date-fns';
 import InputPrataComunitario from "./InputPrataComunitario";
 
+import { useDispatch } from "react-redux";
+import { startDeletePrataComunitario } from "../actions/prataComunitariosActions";
+
 const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
 
   const [prataComunitario, setPrataComunitario] = useState({_id:null,fecha: format(new Date(),"yyyy-MM-dd"),comunitarioId:"",cantidadDoppler:"",
@@ -11,6 +14,8 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
     cantidadConsultorio:"",valorConsultorio:0});
 
   const [comunitarios, setComunitarios] = useState([]);
+  const dispatch = useDispatch();
+
   const bidiRef = useRef(null);
   const dobleRef = useRef(null);
   const consultorioRef = useRef(null);
@@ -21,22 +26,13 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
     if( props.match.params.id !== "new")
       axios(`/api/prataComunitario/${props.match.params.id}`)
         .then(res => {
-          const prataComunitarioObject = { 
-            _id: res.data._id,
-            fecha: res.data.fecha,
-            comunitarioId: res.data.comunitario,
-            cantidadDoppler:res.data.cantidadEstudios.cantidadDoppler,
-            valorDoppler:res.data.cantidadEstudios.valorDoppler,
-            cantidadDoble:res.data.cantidadEstudios.cantidadDoble,
-            valorDoble:res.data.cantidadEstudios.valorDoble,
-            cantidadBidi:res.data.cantidadEstudios.cantidadBidi,
-            valorBidi:res.data.cantidadEstudios.valorBidi,
-            cantidadConsultorio: res.data.cantidadEstudios.cantidadConsultorio,
-            valorConsultorio: res.data.cantidadEstudios.valorConsultorio
-            
-          } 
+          const {_id, fecha, comunitario: comunitarioId } = res.data;
+          const { cantidadDoppler, valorDoppler, cantidadDoble, valorDoble, cantidadBidi, valorBidi, cantidadConsultorio, valorConsultorio } = res.data.cantidadEstudios;
           
-          setPrataComunitario(prataComunitarioObject);
+          setPrataComunitario({ 
+            _id, fecha, comunitarioId, cantidadDoppler, valorDoppler, cantidadDoble, 
+            valorDoble, cantidadBidi, valorBidi, cantidadConsultorio, valorConsultorio
+          } );
 
         }).catch(e => { console.log(e); });
 
@@ -93,6 +89,13 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
       "valorConsultorio":consultorio });
     
   };
+
+  const handleDelete = (e)=>{
+    e.preventDefault();
+
+    dispatch(startDeletePrataComunitario(prataComunitario._id));
+    props.history.push("/prataComunitario");
+  }
 
   const isDisabled = ()=>{
     let deshabilitar = false;
@@ -157,6 +160,7 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
                       Guardar
                     </button> &nbsp;
                     <Link to={"/prataComunitario"} className="btn btn-dark">Volver</Link> &nbsp;&nbsp;
+                    <button className="btn btn-danger" onClick={handleDelete}>Eliminar</button>
                   </div>
                 </div>
               </div>

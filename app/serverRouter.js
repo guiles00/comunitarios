@@ -19,7 +19,9 @@ module.exports = function () {
   router.get("/prataComunitario", prataComunitarios.getAll);
   router.get("/prataComunitario/:id", prataComunitarios.findById);
   router.post("/prataComunitario", prataComunitarios.addPrataComunitario);
-  router.put("/prataComunitario/:id", prataComunitarios.edit)
+  router.put("/prataComunitario/:id", prataComunitarios.edit);
+  router.delete("/prataComunitario/:id", prataComunitarios.destroy);
+  
   router.get("*", (req, res) => { res.status(404).send(); });
 
   return router;

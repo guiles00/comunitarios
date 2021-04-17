@@ -81,6 +81,24 @@ module.exports = function(){
     }
   }
 
-  return { getAll, addPrataComunitario,findById, edit };
+  const destroy = async function destroy(req, res){
+
+    try{
+
+      const { id } = req.params;
+
+      const resultado = await PrataComunitario.findOneAndDelete(id);
+    
+      res.status(200).send("Actualizado con exito");
+
+    }catch(e){
+     
+      console.log(e);
+      res.status(500).send({ "error":"Error tratando de..." });
+    }
+    
+  }
+
+  return { getAll, addPrataComunitario,findById, edit, destroy };
 
 };
