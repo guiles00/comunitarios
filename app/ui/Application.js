@@ -13,8 +13,8 @@ import FormularioPrataComunitario from "./FormularioPrataComunitario";
 import Maqueta from "./Maqueta";
 
 class Application extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
 
     this.state = { sessionId: null };
   }
@@ -25,7 +25,7 @@ class Application extends Component {
     if (isAuthenticated) {
       return (
         <Router history={history}>
-          <Navbar/>
+          <Navbar version={this.props.version}/>
           <div>
             <Route path="/home" component={Home} exact={true}/>
             <Route path="/comunitarios" component={Comunitarios} exact={true}/>

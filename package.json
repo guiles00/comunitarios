@@ -1,14 +1,14 @@
 {
   "name": "comunitarios",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "env-cmd -f config/.dev.env nodemon app/index.js",
     "start": "node app/index.js",
-    "build": "browserify -g uglifyify -t babelify app/client.js --minify -o public/js/comunitarios.bundle.min.js",
+    "build": "browserify -g uglifyify -t babelify  -t [ envify --VERSION $npm_package_version ] app/client.js --minify -o public/js/comunitarios-$npm_package_version.bundle.min.js --env=holis",
     "build-dev": "browserify -t babelify app/client.js -o public/js/comunitarios.bundle.min.js",
-    "watch": "watchify -t [ babelify --presets [ @babel/react ] ] app/client.js -dv -o public/js/comunitarios.bundle.min.js",
+    "watch": "watchify -t [ babelify --presets [ @babel/react ] ] -t [ envify --VERSION $npm_package_version ] app/client.js -dv -o public/js/comunitarios.bundle.min.js",
     "lint": " ",
     "elint": "./node_modules/.bin/eslint app/*.js app/**/*.js",
     "test": "env-cmd -f config/.test.env jest --env=jsdom"
@@ -32,6 +32,7 @@
     "classnames": "^2.2.6",
     "date-fns": "^2.19.0",
     "env-cmd": "^10.1.0",
+    "envify": "^4.1.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "enzyme-to-json": "^3.6.1",

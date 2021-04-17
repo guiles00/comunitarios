@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 class Navbar extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { sessionId: null };    
   }  
 
@@ -28,7 +28,7 @@ class Navbar extends Component {
 
     const layout = (
       <nav className="navbar navbar-expand-md navbar-dark bg-primary sticky-top">
-        <a className="navbar-brand" href="/">Comunitarios <small>v</small>1.0</a>
+        <a className="navbar-brand" href="/">Comunitarios <small>v</small>{this.props.version}</a>
         <button className="navbar-toggler" data-toggle="collapse" data-target="#collapse_target">
           <span className="navbar-toggler-icon"> </span>
         </button>
