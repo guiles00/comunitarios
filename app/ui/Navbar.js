@@ -8,6 +8,10 @@ class Navbar extends Component {
     this.state = { sessionId: null };
   }
 
+  onLogout() {
+
+    console.log("manda el dispatch para borrar el estado");
+  }
   render() {
 
     const userLinks = (
@@ -25,7 +29,7 @@ class Navbar extends Component {
         </ul>
         <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-                <a className="nav-link">Logout</a>
+                <Link className="nav-link" data-toggle="collapse" data-target="#collapse_target" to="#" onClick={this.onLogout}>Cerrar Sesi&oacute;n</Link>
             </li>
         </ul>
       </React.Fragment>);
