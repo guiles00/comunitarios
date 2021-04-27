@@ -1,10 +1,12 @@
+const { format } = require("date-fns");
+
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 var valorEstudios = new Schema({
   fecha:{
-    type: Date,
-    default: new Date()
+    type: String,
+    default: format(new Date(),"yyyy-MM-dd") 
   },
   doppler : {
     type: Number,

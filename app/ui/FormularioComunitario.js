@@ -1,19 +1,54 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { format } from 'date-fns';
+
 import { startUpdateComunitarios } from "../actions/comunitariosActions";
 
 import { useSelector, useDispatch} from "react-redux";
+
+const EstudiosComunitario = ({ estudios })=>{
+  console.log(estudios)
+  console.log("actualiza?")
+  const registros = estudios.map((e,i)=>{
+    return (<tr key={i}>
+      <td>{format(new Date(e.fecha+"T00:00:00"),"dd/MM/yyyy")}</td>
+      <td>{e.doppler}</td>
+      <td>{e.doble}</td>
+      <td>{e.bidi}</td>
+      <td>{e.consultorio}</td>
+    </tr>)
+  });
+  return (<div>
+    <table className="table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Doppler</th>
+          <th>Bidi</th>
+          <th>Doble</th>
+          <th>Consultorio</th>
+        </tr>
+      </thead>
+      <tbody>
+        {registros}
+      </tbody>
+    </table>   
+  </div>)
+}
 
 
 /** OJO QUE GUARDA EN El reducer guarda en Sting y no Int */
 const FormularioComunitario = function FormularioComunitario(props) {
 
   const [comunitario, setComunitario] = React.useState({_id:null,nombre:"",doppler:0,bidi:0,doble:0,consultorio:0});
+  const [estudios, setEstudios] = React.useState([]);
+  const [updated, setUpdated] = React.useState(false);
   const [error, setError] = React.useState("");
  
   const comunitarios = useSelector(state => state.comunitarios.listaComunitarios);
   const isLoading = useSelector(state => state.common.isLoading); 
+  
   const dispatch = useDispatch();
 
   const com = comunitarios.filter((c)=>c._id === props.match.params.id);
@@ -23,15 +58,16 @@ const FormularioComunitario = function FormularioComunitario(props) {
     if( props.match.params.id !== "new") {
       const { _id, nombre } = com[0];
       const { doppler, doble, bidi, consultorio } = com[0].estudios[com[0].estudios.length -1];
-
-      setComunitario({_id, nombre,doppler,bidi,doble,consultorio})
-    }
       
+      setComunitario({_id, nombre,doppler,bidi,doble,consultorio});
+      setEstudios(com[0].estudios)
+    }
+    
+    setUpdated(false);
   },[]);
 
   const handleSubmit = function(e) {
     e.preventDefault();
-    //setIsloading(true);
 
     if(comunitario._id === null){
 
@@ -41,27 +77,19 @@ const FormularioComunitario = function FormularioComunitario(props) {
         data: { nombre: comunitario.nombre, doppler: comunitario.doppler, bidi: comunitario.bidi
           , doble: comunitario.doble, consultorio: comunitario.consultorio}
         }).then((res)=>{
-          //setIsloading(false);     
+    
           props.history.push("/comunitarios");
           
         }).catch((e)=>{
           console.log(e)
-          //setIsloading(false);
           setError("ocurrio un error")
         });
 
     } else {
-      console.log("actualiza esto");
-      console.log(comunitario);
-      dispatch(startUpdateComunitarios(comunitario))
-
-      // axios.put(`/api/comunitarios/${comunitario._id}`, comunitario)
-      //   .then(() => {
-      //     setIsloading(false);
-      //   }).catch(e => {
-      //     console.log(e);
-      //     setError("ocurrio un error")
-      //   });
+      // console.log("actualiza esto");
+      // console.log(comunitario);
+      setUpdated(true);
+      dispatch(startUpdateComunitarios(comunitario));
     }
   };
 
@@ -142,9 +170,9 @@ const FormularioComunitario = function FormularioComunitario(props) {
                   </div>
                 </div>
               </div>
-
             </fieldset>
           </form>
+          <EstudiosComunitario estudios={estudios} />
         </div>
       </div>
     </div>
