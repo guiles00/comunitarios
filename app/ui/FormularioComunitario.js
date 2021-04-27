@@ -8,10 +8,9 @@ import { startUpdateComunitarios } from "../actions/comunitariosActions";
 import { useSelector, useDispatch} from "react-redux";
 
 const EstudiosComunitario = ({ estudios })=>{
-  console.log(estudios)
-  console.log("actualiza?")
+ 
   const registros = estudios.map((e,i)=>{
-    return (<tr key={i}>
+    return (<tr key={i} className="no-gutter">
       <td>{format(new Date(e.fecha+"T00:00:00"),"dd/MM/yyyy")}</td>
       <td>{e.doppler}</td>
       <td>{e.doble}</td>
@@ -27,7 +26,7 @@ const EstudiosComunitario = ({ estudios })=>{
           <th>Doppler</th>
           <th>Bidi</th>
           <th>Doble</th>
-          <th>Consultorio</th>
+          <th><span className="d-inline-block text-truncate align-middle" style={{maxWidth: "55px"}}>Consultorio</span></th>
         </tr>
       </thead>
       <tbody>
