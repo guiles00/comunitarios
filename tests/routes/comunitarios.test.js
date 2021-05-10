@@ -3,30 +3,42 @@ import 'regenerator-runtime/runtime'
 const request = require("supertest");
 const app = require("../../app/app");
 const Comunitarios = require("../../app/models/Comunitarios");
+const mongoose = require("mongoose");
 
-test("por ahora pasa",()=>{
-  expect(1).toBe(1)
-})
-// beforeAll(async () => {
-//   await Comunitarios.deleteMany();
-// });
+test("Should add a Comunitario", async () =>{
+  
+  const comunitario  = { nombre:"comunitario", 
+    doppler:0, bidi:0, doble:0, consultorio:0
+  } 
+  const result = await request(app)
+    .post("/api/comunitarios")
+    .send(comunitario)
+    .expect(201); 
 
-// test("Should add a Comunitario", async (done) =>{
-//   const comunitario  = { nombre:"comunitario", 
-//     doppler:0, bidi:0, doble:0, consultorio:0
-//   } 
-//   const result = await request(app).post("/api/comunitarios").send(comunitario).expect(200); 
-//   done();
-// });
+});
 
-// test("Endpoint should exists", async () =>{
-//     const response = await request(app).get("/api/comunitarios")
-//     .send().expect(200);
-// });
+test("returns an error if has empty comunitario", async ()=>{
 
-// test("Comunitarios should return an Array", async () =>{
-//   const response = await request(app).get("/api/comunitarios")
-//   .send();
+  const comunitario  = { doppler:0, bidi:0, doble:0, consultorio:0 }
 
-//   expect(Array.isArray(response.body.comunitarios)).toBe(true);
-// });  
+  const result = await request(app)
+    .post("/api/comunitarios")
+    .send(comunitario)
+    .expect(400);
+
+});
+
+test("returns an error Not Found when try to udpate a comunitario that not exists", async ()=>{
+  const comunitario  = { nombre:"comunitario", 
+    doppler:0, bidi:0, doble:0, consultorio:0
+  } 
+  const id = mongoose.Types.ObjectId().toHexString();
+  const result = await request(app)
+  .put(`/api/comunitarios/${id}`)
+  .send(comunitario)
+  .expect(404);
+
+});
+
+test.todo("returns an error if has empty name  when trying to update");
+test.todo("update comunitario");

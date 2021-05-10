@@ -1,6 +1,8 @@
 "use strict";
 const Comunitarios = require("../models/Comunitarios");
 const _ = require("lodash");
+const  { validationResult } = require("express-validator");
+const { NotFoundError } = require("../errors/not-found-error");
 
 module.exports = function(){
 
@@ -31,18 +33,15 @@ module.exports = function(){
 
   const addComunitario = async function addComunitario(req, res){
 
+    const errors = validationResult(req);
+
     const { nombre, doppler, bidi, doble, consultorio } = req.body;
 
     const comunitario = new Comunitarios({nombre:nombre, estudios:[{doppler,bidi,doble,consultorio}]});
 
-    comunitario.save(function (err) {
-      if (err) {
-        console.log(err);
-        res.status(500).send({ "error":"Error tratando de agregar el comunitario" });
-      }
-    });
+    await comunitario.save();
 
-    res.send("alta exitosa");
+    res.status(201).send(comunitario);
   };
 
   const editComunitario = async function editComunitario(req, res){
@@ -52,19 +51,18 @@ module.exports = function(){
 
     const valorEstudios = {doppler, bidi, doble, consultorio};
 
-    try{
+    const comunitario = await Comunitarios.findById(_id);
 
-      const comunitario = await Comunitarios.findById(_id);
-      comunitario.nombre = nombre;
-      comunitario.estudios.addToSet({doppler,bidi,doble,consultorio});
-
-       await comunitario.save();
-
-      res.status(200).send("ok");
-    }catch(e){
-      console.log(e);
-      res.status(500).send({ "error":"Error tratando de traer el comunitario" });
+    if(!comunitario) {
+      throw new NotFoundError();
     }
+    comunitario.nombre = nombre;
+    comunitario.estudios.addToSet({doppler,bidi,doble,consultorio});
+
+    await comunitario.save();
+
+    res.send(comunitario);
+  
   };
 
   const deleteComunitario = async function deleteComunitario(req, res){
