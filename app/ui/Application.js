@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Router, Route } from "react-router-dom";
+import { connect } from "react-redux";
 
 import history from "../history";
 
@@ -10,6 +11,7 @@ import Comunitarios from "./Comunitarios";
 import FormularioComunitario from "./FormularioComunitario";
 import PrataComunitario from "./PrataComunitario";
 import FormularioPrataComunitario from "./FormularioPrataComunitario";
+import SignUp from "./SignUp";
 import Maqueta from "./Maqueta";
 
 class Application extends Component {
@@ -19,26 +21,48 @@ class Application extends Component {
     this.state = { sessionId: null };
   }
 
+  async componentDidMount(){
+    console.log("aca pregunta por el usuario");
+    console.log(this.props.user);
+    const { _id } = this.props.user;
+    this.setState({ sessionId: _id})
+    //dispatch a common asi se guarda el estado de usuario
+  }
+
   render() {
-    const isAuthenticated = true;
+    const isAuthenticated = this.state.sessionId;
     
     if (isAuthenticated) {
       return (
         <Router history={history}>
           <Navbar version={this.props.version}/>
           <div>
-            <Route path="/home" component={Home} exact={true}/>
+            <Route path="/" component={Home} exact={true}/>
             <Route path="/comunitarios" component={Comunitarios} exact={true}/>
             <Route path="/comunitarios/:id" component={FormularioComunitario} exact={true}/>
             <Route path="/prataComunitario/" component={PrataComunitario} exact={true}/>
             <Route path="/prataComunitario/:id" component={FormularioPrataComunitario} exact={true}/>
+            <Route path="/signup" component={SignUp} exact={true}/>
+            <Route path="/login" component={Login} exact={true}/>
             <Route path="/maqueta/" component={Maqueta} exact={true}/> 
           </div>
         </Router>
       );
     }
-    return <Login/>;
+    return (
+      <Router history={history}>
+      <div>
+        <Route path="/login" component={Login} exact={true}/>
+        <Route path="/signup" component={SignUp} exact={true}/>
+      </div>
+    </Router>
+    );
   }
 }
 
-export default Application;
+const mapStateToProps = (state) =>{
+  return {
+    user: state.common.user
+  }
+}
+export default connect(mapStateToProps)(Application);

@@ -5,6 +5,25 @@ const app = require("../../app/app");
 const Comunitarios = require("../../app/models/Comunitarios");
 const mongoose = require("mongoose");
 
+//list
+test("Should return 401 - Not Authorized if is not logged in", async () =>{
+  const response = await request(app)
+    .get("/api/comunitarios")
+    .send()
+    .expect(401)
+});
+
+test("Should return 200 if is logged in", async () =>{
+
+  const response = await request(app)
+    .get("/api/comunitarios")
+    .set('Cookie', global.signin())
+    .send()
+    .expect(200)
+
+});
+
+//add
 test("Should add a Comunitario", async () =>{
   
   const comunitario  = { nombre:"comunitario", 

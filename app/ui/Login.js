@@ -1,37 +1,60 @@
-import React, { Component } from "react";
 
-class Login extends Component{
+import React from "react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentUser } from "../actions/commonActions";
 
-  constructor() {
-    super();
+const Login = () =>{
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const dispatch = useDispatch();
+
+  const handleClick = (e)=>{
+    e.preventDefault();
     
+    const data = { 
+      email, 
+      password
+    };
+
+   axios({
+    method: "post",
+    url: "/api/auth/signin",
+    data
+    }).then((res)=>{
+      //Si esta todo bien mando al dispatch para que se guarde el usuario
+      dispatch(setCurrentUser(res.data));
+      window.location.href = "/";
+    }).catch((e)=>{
+      console.log("error")
+      console.log(e.response.data);
+    });
+  
   }
 
-  render(){
-
-    return (
-      <div className="container-fluid pull-down ">  
-        <div className="row justify-content-md-center">
-          <div className="col-md-10">
-            <fieldset>
-              <div className="card">
-                <div className="card-body justify-content-center">
-                  <h4 className="card-title text-center">
-                    <img src="../images/jesi.webp"></img>
-                  </h4>
-                  <hr></hr>
-                  <h4 className="card-text text-center text-primary">
-                    <a href="/api/login"><img src="../images/btn_google_signin_web.png"></img></a>
-                  </h4> 
-                
-                </div>
-              </div>
-            </fieldset>
-          </div>
+  return (
+    <div className="container mt-4">
+      <h3>Login into Jesis Comunitarios Apps</h3>
+      <form>
+        <div className="form-group">
+          <label>Email:</label>
+          <input type="text" className="form-control" 
+            value={email}
+            onChange={(e)=> setEmail(e.target.value)}
+            ></input>
         </div>
-      </div>
-    );
-  }
+
+        <div className="form-group">
+          <label>Password</label>
+          <input type="password" className="form-control" 
+            value={password}
+            onChange={(e)=> setPassword(e.target.value)}
+            ></input>
+        </div>
+        <div className="btn btn-primary btn-block"
+          onClick={handleClick}>Login</div>
+      </form>
+    </div>)
 }
 
 export default Login;

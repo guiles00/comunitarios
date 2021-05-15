@@ -43,6 +43,10 @@ const comunitariosReducer = (state = initialState, action)=>{
       
       return { listaComunitarios: newListadoComunitario};  
 
+    case "PURGE":
+      console.log("purge Comunitarios");
+      return initialState;
+
     default:
       
       return state;

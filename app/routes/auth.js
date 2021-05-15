@@ -17,7 +17,7 @@ module.exports = function(){
 
   const signUp = async function(req, res) {
     const { email, password } = req.body;
-
+    console.log("entra aca")
     const existingUser = await User.findOne({ email });
 
     if(existingUser){

@@ -29,6 +29,10 @@ const prataComunitariosReducer = (state = initialState, action)=>{
       
       return newState; 
     
+    case "PURGE":
+      console.log("purge paraComunitarios");
+        return initialState;
+  
     default:
       return state;
   }

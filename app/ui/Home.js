@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { format, startOfMonth, endOfMonth, addMonths } from 'date-fns'
 import { es } from 'date-fns/locale';
 
 import { getPrataComunitarioSum, getListadoPorComunitario } from "../selectors/filtersPrataComunitario";
+import { startFetchPrataComunitarios } from "../actions/prataComunitariosActions";
+
 /** 
  * @TODO Dejo estos componentes aca para que en el codeReview vea los nombres
 */
@@ -59,6 +61,13 @@ const Detalle = ({comunitarios})=>{
 const Home = function Home() {
 
   const { listadoPrataComunitarios } = useSelector((state)=>state.prataComunitarios);
+  const dispatch = useDispatch()  
+
+
+  useEffect(() => {
+    dispatch(startFetchPrataComunitarios());     
+  },[]);
+
 
   return (
     <div className="container-fluid pull-down ">  
