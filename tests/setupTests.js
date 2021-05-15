@@ -35,7 +35,7 @@ global.signin = () => {
  mongoose.Promise = global.Promise;
  mongoose.connect(process.env.MONGODB_URI);
 
-// const { JSDOM } = require('jsdom');
+//  const { JSDOM } = require('jsdom');
 
 // const jsdom = new JSDOM('<!doctype html><html><body></body></html>',{
 //   url:"http://localhost"

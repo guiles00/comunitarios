@@ -5,6 +5,8 @@ const app = require("../../app/app");
 const User = require("../../app/models/User");
 const mongoose = require("mongoose");
 
+test.only("skip all", ()=>{});
+
 describe("Testing sign up", ()=>{
 
   beforeAll(async () => {
