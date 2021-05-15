@@ -4,7 +4,6 @@ const request = require("supertest");
 const app = require("../../app/app");
 const User = require("../../app/models/User");
 const mongoose = require("mongoose");
-test.only("skip", ()=>{});
 
 describe("Testing sign up", ()=>{
 
