@@ -1,6 +1,6 @@
 {
   "name": "comunitarios",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,8 +11,8 @@
     "watch": "watchify -t [ babelify --presets [ @babel/react ] ] -t [ envify --VERSION $npm_package_version ] app/client.js -dv -o public/js/comunitarios-$npm_package_version.bundle.min.js",
     "lint": " ",
     "elint": "./node_modules/.bin/eslint app/*.js app/**/*.js",
-    "test": "env-cmd -f config/.test.env jest --detectOpenHandles --env=jsdom",
-    "test:dev": "env-cmd -f config/.test.env jest --watch --detectOpenHandles --env=jsdom"
+    "test:dev": "env-cmd -f config/.test.env jest --watch --detectOpenHandles --env=jsdom",
+    "test": "env-cmd -f config/.test.env jest --detectOpenHandles --env=jsdom"
   },
   "keywords": [],
   "author": "",
