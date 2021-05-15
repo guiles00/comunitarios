@@ -49,14 +49,7 @@ class Application extends Component {
         </Router>
       );
     }
-    return (
-      <Router history={history}>
-      <div>
-        <Route path="/login" component={Login} exact={true}/>
-        <Route path="/signup" component={SignUp} exact={true}/>
-      </div>
-    </Router>
-    );
+    return <Login/>;
   }
 }
 
