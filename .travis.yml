@@ -10,5 +10,6 @@ deploy:
   provider: heroku
 
 script:
-  - npm test
-  - npm run build
+  - npm run start &
+  - sleep 3
+  - npm run test
