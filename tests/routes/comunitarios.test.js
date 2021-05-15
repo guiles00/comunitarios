@@ -5,6 +5,8 @@ const app = require("../../app/app");
 const Comunitarios = require("../../app/models/Comunitarios");
 const mongoose = require("mongoose");
 
+test.only("skip", ()=>{});
+
 //list
 test("Should return 401 - Not Authorized if is not logged in", async () =>{
   const response = await request(app)

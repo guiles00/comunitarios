@@ -29,6 +29,12 @@ global.signin = () => {
   return [`express:sess=${base64}`];
 };
 
+//const keys = require('../config/keys');
+const mongoURI = "mongodb://localhost:27017/comunitarios-test";
+
+mongoose.Promise = global.Promise;
+mongoose.connect(mongoURI);
+
 // const { JSDOM } = require('jsdom');
 
 // const jsdom = new JSDOM('<!doctype html><html><body></body></html>',{
