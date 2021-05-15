@@ -32,8 +32,8 @@ global.signin = () => {
 //const keys = require('../config/keys');
 // const mongoURI = "mongodb://localhost:27017/comunitarios-test";
 
-// mongoose.Promise = global.Promise;
-// mongoose.connect(mongoURI);
+ mongoose.Promise = global.Promise;
+ mongoose.connect(process.env.MONGODB_URI);
 
 // const { JSDOM } = require('jsdom');
 
