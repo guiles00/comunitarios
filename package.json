@@ -1,6 +1,6 @@
 {
   "name": "comunitarios",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "lint": " ",
     "elint": "./node_modules/.bin/eslint app/*.js app/**/*.js",
     "test:dev": "env-cmd -f config/.test.env jest --watch --detectOpenHandles --env=jsdom",
-    "test": "env-cmd -f config/.test.env jest --detectOpenHandles --env=jsdom"
+    "test": "env-cmd -f config/.test.env jest  --env=jsdom"
   },
   "keywords": [],
   "author": "",
