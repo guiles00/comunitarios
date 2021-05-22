@@ -4,16 +4,19 @@ import axios from "axios";
 import { format } from 'date-fns';
 import InputPrataComunitario from "./InputPrataComunitario";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { startDeletePrataComunitario } from "../actions/prataComunitariosActions";
+import { startFetchComunitarios } from "../actions/comunitariosActions";
 
 const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
 
   const [prataComunitario, setPrataComunitario] = useState({_id:null,fecha: format(new Date(),"yyyy-MM-dd"),comunitarioId:"",cantidadDoppler:"",
     valorDoppler:0,cantidadBidi:"", valorBidi:0,cantidadDoble:"", valorDoble:0,
     cantidadConsultorio:"",valorConsultorio:0});
+  
+  const comunitarios = useSelector(state=>state.comunitarios.listaComunitarios);
 
-  const [comunitarios, setComunitarios] = useState([]);
+  //const [comunitarios, setComunitarios] = useState([]);
   const dispatch = useDispatch();
 
   const bidiRef = useRef(null);
@@ -38,13 +41,18 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
 
   },[]);
 
-  useEffect(() =>{
-    axios("/api/comunitarios")
-      .then(res =>{
-        setComunitarios(res.data.comunitarios)
-      })
-      .catch(e => {console.log(e);});
+  // useEffect(() =>{
+  //   axios("/api/comunitarios")
+  //     .then(res =>{
+  //       setComunitarios(res.data.comunitarios)
+  //     })
+  //     .catch(e => {console.log(e);});
+  // },[]);
+
+  React.useEffect(() => {
+    dispatch(startFetchComunitarios());
   },[]);
+
 
   const handleSubmit = function(e) {
     e.preventDefault();
