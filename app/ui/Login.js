@@ -16,6 +16,8 @@ const Login = () =>{
       email, 
       password
     };
+  
+   // @TODO pasarlo a las acciones
 
    axios({
     method: "post",
@@ -23,11 +25,16 @@ const Login = () =>{
     data
     }).then((res)=>{
       //Si esta todo bien mando al dispatch para que se guarde el usuario
-      dispatch(setCurrentUser(res.data));
+      const { user, token } = res.data;
+      
+      localStorage.setItem("jwtToken", token);
+      console.log(res.data)   
+      //dispatch(setCurrentUser(jwtDecode(token)));
+      dispatch(setCurrentUser(user));
       window.location.href = "/";
     }).catch((e)=>{
       console.log("error")
-      console.log(e.response.data);
+      console.log(e);
     });
   
   }

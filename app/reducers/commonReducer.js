@@ -13,7 +13,7 @@ const commonReducer = (state = initialState, action)=>{
     case FINISH_IS_LOADING:
       return {...state, isLoading: false}
     case SET_CURRENTUSER:
-      console.log(action)
+      //console.log(action)
       return {...state, user: action.payload}
     case "PURGE":
       console.log("purge common");

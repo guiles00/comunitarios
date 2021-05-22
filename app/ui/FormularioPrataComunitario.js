@@ -16,7 +16,6 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
   
   const comunitarios = useSelector(state=>state.comunitarios.listaComunitarios);
 
-  //const [comunitarios, setComunitarios] = useState([]);
   const dispatch = useDispatch();
 
   const bidiRef = useRef(null);
@@ -40,14 +39,6 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
         }).catch(e => { console.log(e); });
 
   },[]);
-
-  // useEffect(() =>{
-  //   axios("/api/comunitarios")
-  //     .then(res =>{
-  //       setComunitarios(res.data.comunitarios)
-  //     })
-  //     .catch(e => {console.log(e);});
-  // },[]);
 
   React.useEffect(() => {
     dispatch(startFetchComunitarios());

@@ -14,24 +14,37 @@ import FormularioPrataComunitario from "./FormularioPrataComunitario";
 import SignUp from "./SignUp";
 import Maqueta from "./Maqueta";
 
+import { setCurrentUser } from "../actions/commonActions";
+
+//@TODO: pasar a las acciones
+import axios from "axios";
 class Application extends Component {
   constructor(props){
     super(props);
 
-    this.state = { sessionId: null };
+    this.state = { sessionId: null, isAuthenticated: false };
+
   }
 
   async componentDidMount(){
-    console.log("aca pregunta por el usuario");
-    console.log(this.props.user);
-    const { _id } = this.props.user;
-    this.setState({ sessionId: _id})
-    //dispatch a common asi se guarda el estado de usuario
+
+      axios.get("api/auth/currentuser").then((res)=>{
+      
+        this.props.setCurrentUser(res.data.currentUser)
+        
+      }).catch(()=>{
+          
+        //borra el usuario
+        this.props.setCurrentUser({});
+      })
+      
+    
   }
 
   render() {
-    const isAuthenticated = this.state.sessionId;
-    
+
+    const isAuthenticated = typeof(this.props.user.id) !== "undefined";
+
     if (isAuthenticated) {
       return (
         <Router history={history}>
@@ -58,4 +71,10 @@ const mapStateToProps = (state) =>{
     user: state.common.user
   }
 }
-export default connect(mapStateToProps)(Application);
+const mapDispatchToProps = (dispatch) =>{
+  return {
+    setCurrentUser: (user)=> dispatch(setCurrentUser(user))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Application);

@@ -71,12 +71,12 @@ module.exports = function(){
       jwt: userJwt
     }
 
-    res.status(200).send(existingUser);
+    res.status(200).send({"user":existingUser,"token":userJwt});
   }
   
   const getUser = function(req, res){
     
-    res.send({ currentUSer: req.currentUser || null})  
+    res.send({ currentUser: req.currentUser || null})  
   }
 
   const signOut = function(req, res) {

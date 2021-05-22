@@ -49,24 +49,26 @@ module.exports = function () {
     body("nombre").not().isEmpty().withMessage("Nombre no puede estar vacio")
   ]
   ,validateRequest
+  ,requireAuth
   ,comunitarios.addComunitario);
 
-  router.get("/comunitarios/:id", comunitarios.findById);
+  router.get("/comunitarios/:id", requireAuth, comunitarios.findById);
   
   router.put("/comunitarios/:id", 
   [
     body("nombre").not().isEmpty().withMessage("Nombre no puede estar vacio")
   ],
   validateRequest
+  ,requireAuth
   ,comunitarios.editComunitario);
   
-  router.delete("/comunitarios/:id", comunitarios.deleteComunitario);
+  router.delete("/comunitarios/:id",requireAuth, comunitarios.deleteComunitario);
  
-  router.get("/prataComunitario", prataComunitarios.getAll);
-  router.get("/prataComunitario/:id", prataComunitarios.findById);
-  router.post("/prataComunitario", prataComunitarios.addPrataComunitario);
-  router.put("/prataComunitario/:id", prataComunitarios.edit);
-  router.delete("/prataComunitario/:id", prataComunitarios.destroy);
+  router.get("/prataComunitario",requireAuth, prataComunitarios.getAll);
+  router.get("/prataComunitario/:id",requireAuth, prataComunitarios.findById);
+  router.post("/prataComunitario",requireAuth, prataComunitarios.addPrataComunitario);
+  router.put("/prataComunitario/:id",requireAuth, prataComunitarios.edit);
+  router.delete("/prataComunitario/:id",requireAuth, prataComunitarios.destroy);
   
   router.all("*", (req, res, next) => { 
     throw new NotFoundError();  

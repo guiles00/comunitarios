@@ -8,18 +8,7 @@ class Navbar extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { sessionId: null };
     this.onLogout = this.onLogout.bind(this);
-  }
-
-  async componentDidMount(){
-    console.log("aca pregunta por el usuario");
-    // const user = await axios.get("/api/auth/currentuser");
-    // console.log(user.data);
-    console.log(this.props.user);
-    const { _id } = this.props.user;
-    this.setState({ sessionId: _id})
-    //dispatch a common asi se guarda el estado de usuario
   }
 
   async onLogout() {
@@ -32,6 +21,7 @@ class Navbar extends Component {
   }
 
   render() {
+    const isAuthenticated = typeof(this.props.user.id) !== "undefined";
 
     const userLinks = (
       <React.Fragment>
@@ -60,7 +50,7 @@ class Navbar extends Component {
           <span className="navbar-toggler-icon"> </span>
         </button>
         <div className="collapse navbar-collapse" id="collapse_target">
-        {this.state.sessionId && userLinks}
+        {isAuthenticated && userLinks}
         </div>
       </nav>
     );
