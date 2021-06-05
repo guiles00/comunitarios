@@ -48,15 +48,26 @@ const getListadoPorComunitario = (listadoPrataComunitarios, startDate, endDate)=
 
  }).reduce((acc,curr)=>{
   
+  const fecha = curr.fecha;
+  
   if(acc[curr.comunitario.nombre] === undefined){
-    acc[curr.comunitario.nombre] = sumEstudios(curr.cantidadEstudios);
+  
+    const newArr = new Array(Object.assign({},curr.cantidadEstudios,{fecha}));
+    acc[curr.comunitario.nombre] = {suma: sumEstudios(curr.cantidadEstudios), totalEstudios:newArr };
   }else{
-    acc[curr.comunitario.nombre] += sumEstudios(curr.cantidadEstudios);
+  
+    const auxSum = acc[curr.comunitario.nombre].suma + sumEstudios(curr.cantidadEstudios);
+    const estudios = acc[curr.comunitario.nombre].totalEstudios.concat(Object.assign({},curr.cantidadEstudios,{fecha}));
+    
+    acc[curr.comunitario.nombre] = {
+      suma: auxSum,
+      totalEstudios: estudios
+    }   
   }
   
   return acc; 
  },{});
-
+console.log(comunitarios);
  return comunitarios;
 }
 

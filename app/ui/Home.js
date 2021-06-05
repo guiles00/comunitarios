@@ -6,6 +6,33 @@ import { es } from 'date-fns/locale';
 import { getPrataComunitarioSum, getListadoPorComunitario } from "../selectors/filtersPrataComunitario";
 import { startFetchPrataComunitarios } from "../actions/prataComunitariosActions";
 
+//New Component
+const RegistroComunitario = ({c,comunitarios})=>{
+
+  const [show, setShow] = useState(false);
+ 
+
+  const handleClick = ()=>{
+    (show)? setShow(false): setShow(true);  
+  }
+  
+  const detalleEstudio = comunitarios[c].totalEstudios.map((e,i)=>{
+   
+    const { cantidadDoppler, valorDoppler, cantidadDoble, valorDoble, cantidadBidi, valorBidi, cantidadConsultorio, valorConsultorio } = e; 
+
+    //suma todos, despues veo de hacer algo menos manual, quizas una funcion helper 
+    const totalPorComunitario = (cantidadDoppler * valorDoppler) + (cantidadDoble * valorDoble) 
+    + (cantidadBidi * valorBidi) + (cantidadConsultorio * valorConsultorio);
+    return <tr className="" key={i}><td><b>{e.fecha}</b></td><td><b>${totalPorComunitario}</b></td></tr>
+  });
+
+  return <React.Fragment><tr onClick={handleClick}><td>{c}</td><td>${comunitarios[c].suma}</td></tr>
+     
+     {show && detalleEstudio} 
+    </React.Fragment> 
+
+}
+
 /** 
  * @TODO Dejo estos componentes aca para que en el codeReview vea los nombres
 */
@@ -22,7 +49,7 @@ const Mes = ({offset = 0,listadoPrataComunitarios})=>{
 
   const suma = getPrataComunitarioSum(listadoPrataComunitarios,format(inicio ,"yyyy-MM-dd"),format(fin ,"yyyy-MM-dd"));
   const estudiosPorComunitario = getListadoPorComunitario(listadoPrataComunitarios,format(inicio ,"yyyy-MM-dd"),format(fin ,"yyyy-MM-dd"));
-
+  
   return (<div className="card">
     <div className="card-body">
         <h4 className="card-title text-center">{capitalize(format(inicio,"MMMM",{locale:es}))}</h4>
@@ -39,11 +66,10 @@ const Detalle = ({comunitarios})=>{
   const handleClick = ()=>{
     (show)? setShow(false): setShow(true);
   }
-
+  
   const listado = Object.keys(comunitarios).map((c,i)=>{
-    
-    return <tr key={i}><td>{c}</td><td>${comunitarios[c]}</td></tr>
-  })
+     return <RegistroComunitario key={i} c={c} comunitarios={comunitarios}/> 
+  });
  
   const detalle = (<table className="table table-striped"><tbody>
     {listado}

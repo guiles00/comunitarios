@@ -62,8 +62,7 @@ const FormularioPrataComunitario = function FormularioPrataComunitario(props) {
     
       axios.put(`/api/prataComunitario/${prataComunitario._id}`, prataComunitario)
       .then((res)=>{
-        console.log(res);
-        console.log("actualiza")
+        props.history.push("/prataComunitario");
       })
       .catch((e)=>{
         console.log(e)

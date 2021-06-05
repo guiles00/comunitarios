@@ -72,7 +72,7 @@ module.exports = function(){
     try{
 
       await Comunitarios.findByIdAndDelete({_id});
-      res.send("borrado");
+      res.send({});
     }catch(e){
       console.log(e);
       res.status(500).send({ "error":"Error tratando de eliminar el comunitario" });
