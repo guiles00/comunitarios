@@ -26,7 +26,7 @@ test("Should return 200 if is logged in", async () =>{
 });
 
 //add
-test("Should add a Comunitario", async () =>{
+test.skip("Should add a Comunitario", async () =>{
   
   const comunitario  = { nombre:"comunitario", 
     doppler:0, bidi:0, doble:0, consultorio:0
@@ -49,7 +49,7 @@ test("returns an error if has empty comunitario", async ()=>{
 
 });
 
-test("returns an error Not Found when try to udpate a comunitario that not exists", async ()=>{
+test.skip("returns an error Not Found when try to udpate a comunitario that not exists", async ()=>{
   const comunitario  = { nombre:"comunitario", 
     doppler:0, bidi:0, doble:0, consultorio:0
   } 
