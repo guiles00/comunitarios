@@ -23,7 +23,8 @@ const RegistroComunitario = ({c,comunitarios})=>{
     //suma todos, despues veo de hacer algo menos manual, quizas una funcion helper 
     const totalPorComunitario = (cantidadDoppler * valorDoppler) + (cantidadDoble * valorDoble) 
     + (cantidadBidi * valorBidi) + (cantidadConsultorio * valorConsultorio);
-    return <tr className="" key={i}><td><b>{e.fecha}</b></td><td><b>${totalPorComunitario}</b></td></tr>
+
+    return <tr className="" key={i}><td><b>{format(new Date(e.fecha+"T00:00:00"),"dd/MM/yyyy")}</b></td><td><b>${totalPorComunitario}</b></td></tr>
   });
 
   return <React.Fragment><tr onClick={handleClick}><td>{c}</td><td>${comunitarios[c].suma}</td></tr>
